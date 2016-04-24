@@ -1,0 +1,41 @@
+.logo {
+    font-family: Diary;
+    font-weight: bolder;
+}
+
+.navbar-default .navbar-brand:hover, 
+.navbar-default .navbar-brand:focus {
+	color: red;
+}
+
+.navbar-header {
+	font-weight: bold;
+	padding-right: 25px;
+	padding-left: 25px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.navbar-text {
+	margin-right: 25px;
+}
+
+ul.nav {
+	font-weight: bold;
+}
+
+ul.nav a:hover { 
+	color: red !important; 
+}
+
+#logout {
+	font-weight: bold;
+}
+
+#logout a:hover {
+	color: red;
+}

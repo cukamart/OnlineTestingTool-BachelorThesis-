@@ -1,0 +1,10 @@
+.glyphicon-home {
+	color: #262626;
+	margin-left: 31px;
+}
+
+.btn-primary {
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}

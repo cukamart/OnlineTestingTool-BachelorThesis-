@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.7.0.201506251244-RELEASE]]></pluginVersion>
+	<configs>
+		<config>
+			<file>WebContent/WEB-INF/flows/question-flow.xml</file>
+			<name><![CDATA[question-flow]]></name>
+		</config>
+		<config>
+			<file>src/sk/uniza/fri/cuka/config/webflow-config.xml</file>
+			<name><![CDATA[webflow-config]]></name>
+		</config>
+	</configs>
+</webflow-project-description>

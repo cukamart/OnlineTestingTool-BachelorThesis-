@@ -1,0 +1,49 @@
+legend {
+	border-bottom: 1px solid #000000;
+}
+
+.confirm {
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.success {
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.checkbox {
+	vertical-align: middle;
+}
+
+.glyphicon-asterisk {
+	vertical-align: top;
+	font-size: 0.7em;
+	color: #cc0000;
+}
+
+.error {
+	font-size: small;
+	color: red;
+}
+
+.list-group-item {
+	display: list-item;
+}
+
+#thrash {
+	vertical-align: middle;
+}
+
+.glyphicon-trash {
+	font-weight: bold;
+}
+
+#glyphBtn {
+	-webkit-appearance: none;
+	outline: none;
+	border: 0;
+	background: transparent;
+}

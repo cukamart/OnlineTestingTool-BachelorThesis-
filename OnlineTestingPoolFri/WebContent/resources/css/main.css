@@ -1,0 +1,88 @@
+body {
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+::selection {
+	background: #ffb7b7; /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+	background: #ffb7b7; /* Gecko Browsers */
+}
+
+.input-group {
+	margin-top: 1px;
+}
+
+.bold {
+	font-weight: bolder;
+}
+
+.center {
+	text-align: center;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.right {
+	text-align: right;
+}
+
+.left {
+	text-aling: left;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+.red {
+	color: red;
+}
+
+#timeContainer {
+	padding-top: 52px;
+	font-weight: bold;
+}
+
+#topContainer {
+	padding-top: 70px;
+}
+
+.paddingTopNavbar {
+	padding-top: 52px;
+}
+
+.marginTop {
+	margin-top: 25px;
+}
+
+.marginLeft {
+	margin-left: 5px;
+}
+
+.bigMarginLeft {
+	margin-left: 25px;
+}
+
+.btn-link {
+	border: none;
+	outline: none;
+	background: none;
+	cursor: pointer;
+	color: #235B91;
+	padding: 0;
+	text-decoration: none;
+	font-family: inherit;
+	font-weight: bold;
+}
+
+table.sortable thead {
+	background-color: #006DCC;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
