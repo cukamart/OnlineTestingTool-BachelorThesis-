@@ -1,7 +1,7 @@
 package sk.uniza.fri.cuka.model.enums;
 
 public enum Roles {
-	UCITELIA("ucitelia"), STUDENTI("studenti");
+	TEACHER("ucitelia"), STUDENT("studenti");
 
 	private final String value;
 

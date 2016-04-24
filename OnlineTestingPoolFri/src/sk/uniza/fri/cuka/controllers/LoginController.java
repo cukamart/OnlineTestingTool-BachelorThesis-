@@ -33,11 +33,11 @@ public class LoginController {
 
 		for (GrantedAuthority role : roles) {
 
-			if (role.toString().equals(Roles.UCITELIA.getValue())) {
+			if (role.toString().equals(Roles.TEACHER.getValue())) {
 				return "redirect:index";
 			}
 
-			if (role.toString().equals(Roles.STUDENTI.getValue())) {
+			if (role.toString().equals(Roles.STUDENT.getValue())) {
 				return "redirect:sindex";
 			}
 		}
