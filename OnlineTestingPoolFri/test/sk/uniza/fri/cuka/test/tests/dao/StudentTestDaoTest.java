@@ -1,4 +1,4 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,27 +17,22 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import sk.uniza.fri.cuka.data.dao.QuestionDaoImpl;
 import sk.uniza.fri.cuka.data.dao.StudentDaoImpl;
-import sk.uniza.fri.cuka.data.dao.StudentQuestionDaoImpl;
 import sk.uniza.fri.cuka.data.dao.StudentTestDaoImpl;
 import sk.uniza.fri.cuka.data.dao.SubjectDaoImpl;
 import sk.uniza.fri.cuka.data.dao.SubjectTestDaoImpl;
 import sk.uniza.fri.cuka.data.dao.TestDaoImpl;
-import sk.uniza.fri.cuka.data.entity.Question;
 import sk.uniza.fri.cuka.data.entity.Student;
-import sk.uniza.fri.cuka.data.entity.StudentQuestion;
 import sk.uniza.fri.cuka.data.entity.StudentTest;
 import sk.uniza.fri.cuka.data.entity.Subject;
 import sk.uniza.fri.cuka.data.entity.SubjectTest;
-import sk.uniza.fri.cuka.data.entity.ids.StudentQuestionId;
 
 @ActiveProfiles("development")
 @ContextConfiguration(locations = { "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
 		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
 		"classpath:sk/uniza/fri/cuka/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StudentQuestionDaoTest {
+public class StudentTestDaoTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -57,20 +52,12 @@ public class StudentQuestionDaoTest {
 	@Autowired
 	private SubjectTestDaoImpl subjectTestDao;
 
-	@Autowired
-	private StudentQuestionDaoImpl studentQuestionDao;
-
-	@Autowired
-	private QuestionDaoImpl questionDaoImpl;
-
 	@Before
 	public void init() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		studentQuestionDao.deleteTable();
-		questionDaoImpl.deleteTable();
 		studentTestDao.deleteTable();
 		testDaoImpl.deleteTable();
 		subjectTestDao.deleteTable();
@@ -130,36 +117,15 @@ public class StudentQuestionDaoTest {
 
 		studentTestDao.create(studentTest);
 
-		// vytvorim Otazku
-		Question question = new Question("Co viete o monitore ?", subject.getPr_id(), "T", 1, "text", 13, null, "aaa",
-				"aaa", 1L, "mojModel");
-
-		question.setSubject(subject);
-		subject.getQuestions().add(question);
-		questionDaoImpl.create(question);
-
-		// vytvorim Stud_otazka
-		StudentQuestion studentQuestion = new StudentQuestion(studentTest.getSte_id(), question.getOt_id(), 0, 1, "ano",
-				0, null, 0, 0);
-
-		studentQuestion.setQuestion(question);
-		studentQuestion.setStudentTest(studentTest);
-		question.getStudentQuestions().add(studentQuestion);
-		studentTest.getStudentQuestions().add(studentQuestion);
-
-		studentQuestionDao.create(studentQuestion);
-
 		// testujem funkcnost DAO
-		List<StudentQuestion> studentQuestions;
-		studentQuestions = studentQuestionDao.findAll();
+		List<StudentTest> studentTests;
+		studentTests = studentTestDao.findAll();
 
-		assertEquals("Number of StudentQuestions should be 1", 1, studentQuestions.size());
+		assertEquals("Number of StudentTests should be 1", 1, studentTests.size());
 
-		StudentQuestionId sqId = new StudentQuestionId(studentTest.getSte_id(), question.getOt_id());
-		StudentQuestion myStudentQuestion = studentQuestionDao.findById(sqId);
+		StudentTest myStudentTest = studentTestDao.findById(studentTests.get(0).getSte_id());
 
-		assertEquals("Retrieved studentQuestion find by id should be indentical to created", studentQuestion,
-				myStudentQuestion);
+		assertEquals("Retrieved studentTest find by id should be indentical to created", studentTest, myStudentTest);
 
 		transaction.commit();
 		session.close();
@@ -176,7 +142,5 @@ public class StudentQuestionDaoTest {
 		testDaoImpl.setSession(session);
 		studentDao.setSession(session);
 		studentTestDao.setSession(session);
-		questionDaoImpl.setSession(session);
-		studentQuestionDao.setSession(session);
 	}
 }

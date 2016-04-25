@@ -1,4 +1,4 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 

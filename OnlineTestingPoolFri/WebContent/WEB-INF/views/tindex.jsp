@@ -50,7 +50,9 @@
 	        		
 	        		<c:if test="${subject.pr_id ne teacher.uc_pr_id}">
 	        			<form:form method="post">
-	        				<p><button type="submit" name="subjectId" value="${subject.pr_id}" class="btn-link"><c:out value="${subject.pr_nazov}"></c:out></button></p>
+	        				<p>
+	        					<button type="submit" name="subjectId" value="${subject.pr_id}" class="btn-link"><c:out value="${subject.pr_nazov}"></c:out></button>
+	        				</p>
 	        			</form:form>
 	        		</c:if>
 	        		

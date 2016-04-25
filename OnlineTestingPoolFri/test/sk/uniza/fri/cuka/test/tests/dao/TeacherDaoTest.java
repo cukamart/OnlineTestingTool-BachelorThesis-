@@ -1,4 +1,4 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,21 +16,21 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import sk.uniza.fri.cuka.data.dao.StudentDaoImpl;
-import sk.uniza.fri.cuka.data.entity.Student;
+import sk.uniza.fri.cuka.data.dao.TeacherDaoImpl;
+import sk.uniza.fri.cuka.data.entity.Teacher;
 
 @ActiveProfiles("development")
 @ContextConfiguration(locations = { "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
 		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
 		"classpath:sk/uniza/fri/cuka/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StudentDaoTest {
+public class TeacherDaoTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Autowired
-	private StudentDaoImpl studentDao;
+	private TeacherDaoImpl teacherDao;
 
 	@Before
 	public void init() {
@@ -38,36 +38,39 @@ public class StudentDaoTest {
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		studentDao.deleteTable();
+		teacherDao.deleteTable();
 
 		transaction.commit();
 		session.close();
 	}
 
 	@Test
-	public void testCreateandGetStudent() {
+	public void testCreateTeacher() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		Student student = new Student("cuka", "martin", "cuka666", "letmein", 1, 1, "druzby", "Zilina", "97404",
-				"cukamartin@gmail.com", "", "0904112355", "S", "5ZI031");
+		Teacher teacher = new Teacher("Vagner", "Dusan", "vagner2", "letmein", "druzby", "Zilina", "97404",
+				"cukamartin@gmail.com", "", "0904112355", "Y", "Y", "5ZI03");
 
-		Student student2 = new Student("cuka2", "martin2", "cuka6662", "letmein", 1, 1, "druzby", "Zilina", "97404",
-				"cukamartin@gmail.com", "", "0904112354", "S", "5ZI031");
+		Teacher teacher2 = new Teacher("Osko", "Peter", "osko1", "letmein", "druzby", "Zilina", "97404",
+				"cukamartin@gmail.com", "", "0904112355", "Y", "Y", "5ZI03");
 
-		List<Student> students;
+		List<Teacher> teachers;
 
-		studentDao.create(student);
-		students = studentDao.findAll();
-		assertEquals("Number of students should be 1", 1, students.size());
+		teacherDao.create(teacher);
+		teachers = teacherDao.findAll();
+		assertEquals("Number of teachers should be 1", 1, teachers.size());
 
-		studentDao.create(student2);
-		students = studentDao.findAll();
-		assertEquals("Number of students should be 2", 2, students.size());
+		teacherDao.create(teacher2);
+		teachers = teacherDao.findAll();
+		assertEquals("Number of teachers should be 2", 2, teachers.size());
 
-		// neporovnava ID a heslo (ID je automaticky generovane a heslo zasifrovane...)
-		assertEquals("Created student should be identical to retrieved", student, students.get(0));
+		assertEquals("Created teacher should be identical to retrieved", teacher, teachers.get(0));
+		
+		Teacher teacherByLogin = teacherDao.getTeacherByLogin("vagner2");
+		
+		assertEquals("Teacher retrieved by login should be \"Dusan Vagner\"", teacherByLogin, teacher);
 
 		transaction.commit();
 		session.close();
@@ -79,6 +82,6 @@ public class StudentDaoTest {
 	}
 
 	private void shareSession(Session session) {
-		studentDao.setSession(session);
+		teacherDao.setSession(session);
 	}
 }

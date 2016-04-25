@@ -1,7 +1,8 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -17,20 +18,26 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import sk.uniza.fri.cuka.data.dao.ManageDaoImpl;
+import sk.uniza.fri.cuka.data.dao.RegisteredSubjectDaoImpl;
 import sk.uniza.fri.cuka.data.dao.StatusDao;
+import sk.uniza.fri.cuka.data.dao.StudentDaoImpl;
 import sk.uniza.fri.cuka.data.dao.SubjectDaoImpl;
 import sk.uniza.fri.cuka.data.dao.TeacherDaoImpl;
+import sk.uniza.fri.cuka.data.dao.ValuationDao;
 import sk.uniza.fri.cuka.data.entity.Manage;
+import sk.uniza.fri.cuka.data.entity.RegisteredSubject;
 import sk.uniza.fri.cuka.data.entity.Status;
+import sk.uniza.fri.cuka.data.entity.Student;
 import sk.uniza.fri.cuka.data.entity.Subject;
 import sk.uniza.fri.cuka.data.entity.Teacher;
+import sk.uniza.fri.cuka.data.entity.Valuation;
 
 @ActiveProfiles("development")
 @ContextConfiguration(locations = { "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
 		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
 		"classpath:sk/uniza/fri/cuka/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ManageDaoTest {
+public class RegisteredSubjectDaoTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -47,23 +54,35 @@ public class ManageDaoTest {
 	@Autowired
 	private ManageDaoImpl manageDao;
 
+	@Autowired
+	private ValuationDao valuationDao;
+
+	@Autowired
+	private RegisteredSubjectDaoImpl registeredSubjectDao;
+
+	@Autowired
+	private StudentDaoImpl studentDao;
+
 	@Before
 	public void init() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
+		registeredSubjectDao.deleteTable();
+		valuationDao.deleteTable();
 		manageDao.deleteTable();
 		statusDao.deleteTable();
 		teacherDao.deleteTable();
 		subjectDao.deleteTable();
+		studentDao.deleteTable();
 
 		transaction.commit();
 		session.close();
 	}
 
 	@Test
-	public void testTeachersAndSubjects() {
+	public void testRegisteredSubjectDao() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
@@ -135,11 +154,30 @@ public class ManageDaoTest {
 
 		manageDao.create(manage3);
 
-		List<String> subjects = manageDao.getSubjectNameByTeacherId(teacherDao.findAll().get(0).getUc_id());
-		assertEquals("Teacher (0) should have 2 subjects", 2, subjects.size());
+		Valuation valuation = new Valuation("A", null, null, 91);
+		valuationDao.create(valuation);
 
-		subjects = manageDao.getSubjectNameByTeacherId(teacherDao.findAll().get(1).getUc_id());
-		assertEquals("Teacher (1) should have 1 subject", 1, subjects.size());
+		Student student = new Student("cuka", "martin", "cuka666", "letmein", 1, 1, "druzby", "Zilina", "97404",
+				"cukamartin@gmail.com", "", "0904112355", "S", "5ZI031");
+		studentDao.create(student);
+
+		RegisteredSubject registeredSubject = new RegisteredSubject(student.getSt_id(), manage.getSp_pr_id(),
+				manage.getSp_skrok(), new Date(), new Date(), new Date(), new Date(), manage.getSp_uc_id(),
+				valuation.getHo_id(), null, null, null, null);
+
+		registeredSubject.setValuation(valuation);
+		valuation.getRegisteredSubjects().add(registeredSubject);
+		registeredSubject.setManage(manage);
+		manage.getRegisteredSubjects().add(registeredSubject);
+
+		registeredSubjectDao.create(registeredSubject);
+
+		List<RegisteredSubject> registeredSubjects = registeredSubjectDao.findAll();
+
+		assertEquals("Number of statuses should be 1", 1, registeredSubjects.size());
+
+		assertEquals("Created RegisteredSubject should be identical to retrieved", registeredSubject,
+				registeredSubjects.get(0));
 
 		transaction.commit();
 		session.close();
@@ -155,6 +193,8 @@ public class ManageDaoTest {
 		statusDao.setSession(session);
 		teacherDao.setSession(session);
 		subjectDao.setSession(session);
+		registeredSubjectDao.setSession(session);
+		valuationDao.setSession(session);
+		studentDao.setSession(session);
 	}
-
 }

@@ -33,4 +33,6 @@ public class LdapInfo {
 	public SimpleGrantedAuthority getRole() {
 		return (SimpleGrantedAuthority) getFullRole().iterator().next();
 	}
+	
+	
 }

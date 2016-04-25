@@ -1,4 +1,4 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,33 +17,27 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import sk.uniza.fri.cuka.data.dao.AnswerCategoryDao;
-import sk.uniza.fri.cuka.data.dao.AnswerDaoImpl;
 import sk.uniza.fri.cuka.data.dao.QuestionDaoImpl;
-import sk.uniza.fri.cuka.data.dao.StudentAnswerDao;
 import sk.uniza.fri.cuka.data.dao.StudentDaoImpl;
 import sk.uniza.fri.cuka.data.dao.StudentQuestionDaoImpl;
 import sk.uniza.fri.cuka.data.dao.StudentTestDaoImpl;
 import sk.uniza.fri.cuka.data.dao.SubjectDaoImpl;
 import sk.uniza.fri.cuka.data.dao.SubjectTestDaoImpl;
 import sk.uniza.fri.cuka.data.dao.TestDaoImpl;
-import sk.uniza.fri.cuka.data.entity.Answer;
-import sk.uniza.fri.cuka.data.entity.AnswerCategory;
 import sk.uniza.fri.cuka.data.entity.Question;
 import sk.uniza.fri.cuka.data.entity.Student;
-import sk.uniza.fri.cuka.data.entity.StudentAnswer;
 import sk.uniza.fri.cuka.data.entity.StudentQuestion;
 import sk.uniza.fri.cuka.data.entity.StudentTest;
 import sk.uniza.fri.cuka.data.entity.Subject;
 import sk.uniza.fri.cuka.data.entity.SubjectTest;
-import sk.uniza.fri.cuka.data.entity.ids.StudentAnswerId;
+import sk.uniza.fri.cuka.data.entity.ids.StudentQuestionId;
 
 @ActiveProfiles("development")
 @ContextConfiguration(locations = { "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
 		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
 		"classpath:sk/uniza/fri/cuka/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class StudentAnswerDaoTest {
+public class StudentQuestionDaoTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -69,27 +63,15 @@ public class StudentAnswerDaoTest {
 	@Autowired
 	private QuestionDaoImpl questionDaoImpl;
 
-	@Autowired
-	private StudentAnswerDao studentAnswerDao;
-
-	@Autowired
-	private AnswerCategoryDao answerCategoryDao;
-
-	@Autowired
-	private AnswerDaoImpl answerDaoImpl;
-
 	@Before
 	public void init() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		studentAnswerDao.deleteTable();
 		studentQuestionDao.deleteTable();
-		studentTestDao.deleteTable();
-		answerDaoImpl.deleteTable();
-		answerCategoryDao.deleteTable();
 		questionDaoImpl.deleteTable();
+		studentTestDao.deleteTable();
 		testDaoImpl.deleteTable();
 		subjectTestDao.deleteTable();
 		subjectDaoImpl.deleteTable();
@@ -100,7 +82,7 @@ public class StudentAnswerDaoTest {
 	}
 
 	@Test
-	public void testCreateandGetStudentAnswer() {
+	public void testCreateandGetStudentTest() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
@@ -167,42 +149,17 @@ public class StudentAnswerDaoTest {
 
 		studentQuestionDao.create(studentQuestion);
 
-		// vytvaram odpoved a skup_odp
-		AnswerCategory answerCategory = new AnswerCategory(0, "spravne");
-		answerCategoryDao.create(answerCategory);
+		// testujem funkcnost DAO
+		List<StudentQuestion> studentQuestions;
+		studentQuestions = studentQuestionDao.findAll();
 
-		Answer answer = new Answer("A", question.getOt_id(), "T", 1, answerCategory.getSko_id(), null, null);
+		assertEquals("Number of StudentQuestions should be 1", 1, studentQuestions.size());
 
-		answer.setAnswerCategory(answerCategory);
-		answerCategory.getAnswers().add(answer);
-		answer.setQuestion(question);
-		question.getAnswers().add(answer);
+		StudentQuestionId sqId = new StudentQuestionId(studentTest.getSte_id(), question.getOt_id());
+		StudentQuestion myStudentQuestion = studentQuestionDao.findById(sqId);
 
-		answerDaoImpl.create(answer);
-
-		// vytvorit Student Odpoved
-		StudentAnswer studentAnswer = new StudentAnswer(studentQuestion.getSot_ste_id(), studentQuestion.getSot_ot_id(),
-				answer.getOd_id(), "A", 1);
-
-		studentAnswer.setAnswer(answer);
-		studentAnswer.setStudentQuestion(studentQuestion);
-		answer.getStudentAnswers().add(studentAnswer);
-		studentQuestion.getStudentAnswers().add(studentAnswer);
-		studentAnswerDao.create(studentAnswer);
-
-		List<StudentAnswer> studentAnswers = studentAnswerDao.findAll();
-
-		assertEquals("Number of StudentAnswers should be 1", 1, studentAnswers.size());
-
-		StudentAnswerId stId = new StudentAnswerId(studentQuestion.getSot_ste_id(), studentQuestion.getSot_ot_id(),
-				answer.getOd_id());
-		StudentAnswer myStudentAnswer = studentAnswerDao.findById(stId);
-
-		assertEquals("Retrieved studentAnswer find by id should be indentical to created", studentAnswer,
-				myStudentAnswer);
-
-		assertEquals("Retrieved studentQuestion within StudentAnswer should be indentical to original studentQuestion",
-				myStudentAnswer.getStudentQuestion(), studentQuestion);
+		assertEquals("Retrieved studentQuestion find by id should be indentical to created", studentQuestion,
+				myStudentQuestion);
 
 		transaction.commit();
 		session.close();
@@ -221,8 +178,5 @@ public class StudentAnswerDaoTest {
 		studentTestDao.setSession(session);
 		questionDaoImpl.setSession(session);
 		studentQuestionDao.setSession(session);
-		answerCategoryDao.setSession(session);
-		answerDaoImpl.setSession(session);
-		studentAnswerDao.setSession(session);
 	}
 }

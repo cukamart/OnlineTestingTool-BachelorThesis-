@@ -6,9 +6,8 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @ImportResource({ "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
-		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
-		"classpath:sk/uniza/fri/cuka/config/service-context.xml" })
-@ComponentScan(basePackages={"sk.uniza.fri.cuka.ldap", "sk.uniza.fri.cuka.model"})
+		"classpath:sk/uniza/fri/cuka/config/security-context.xml" })
+@ComponentScan(basePackages = { "sk.uniza.fri.cuka.ldap", "sk.uniza.fri.cuka.model", "sk.uniza.fri.cuka.service" })
 public class RootConfig {
 
 }

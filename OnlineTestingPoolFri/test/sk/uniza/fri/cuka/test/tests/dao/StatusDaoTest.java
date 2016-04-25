@@ -1,4 +1,4 @@
-package sk.uniza.fri.cuka.test.tests;
+package sk.uniza.fri.cuka.test.tests.dao;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,21 +16,21 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import sk.uniza.fri.cuka.data.dao.TeacherDaoImpl;
-import sk.uniza.fri.cuka.data.entity.Teacher;
+import sk.uniza.fri.cuka.data.dao.StatusDao;
+import sk.uniza.fri.cuka.data.entity.Status;
 
 @ActiveProfiles("development")
 @ContextConfiguration(locations = { "classpath:sk/uniza/fri/cuka/config/dao-context.xml",
 		"classpath:sk/uniza/fri/cuka/config/security-context.xml",
 		"classpath:sk/uniza/fri/cuka/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TeacherDaoTest {
+public class StatusDaoTest {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Autowired
-	private TeacherDaoImpl teacherDao;
+	private StatusDao statusDao;
 
 	@Before
 	public void init() {
@@ -38,39 +38,28 @@ public class TeacherDaoTest {
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		teacherDao.deleteTable();
+		statusDao.deleteTable();
 
 		transaction.commit();
 		session.close();
 	}
 
 	@Test
-	public void testCreateTeacher() {
+	public void testCreateandGetStatus() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		Teacher teacher = new Teacher("Vagner", "Dusan", "vagner2", "letmein", "druzby", "Zilina", "97404",
-				"cukamartin@gmail.com", "", "0904112355", "Y", "Y", "5ZI03");
+		Status status = new Status(1, "VIP");
 
-		Teacher teacher2 = new Teacher("Osko", "Peter", "osko1", "letmein", "druzby", "Zilina", "97404",
-				"cukamartin@gmail.com", "", "0904112355", "Y", "Y", "5ZI03");
+		List<Status> statuses;
 
-		List<Teacher> teachers;
+		statusDao.create(status);
+		statuses = statusDao.findAll();
+		assertEquals("Number of statuses should be 1", 1, statuses.size());
 
-		teacherDao.create(teacher);
-		teachers = teacherDao.findAll();
-		assertEquals("Number of teachers should be 1", 1, teachers.size());
-
-		teacherDao.create(teacher2);
-		teachers = teacherDao.findAll();
-		assertEquals("Number of teachers should be 2", 2, teachers.size());
-
-		assertEquals("Created teacher should be identical to retrieved", teacher, teachers.get(0));
-		
-		Teacher teacherByLogin = teacherDao.getTeacherByLogin("vagner2");
-		
-		assertEquals("Teacher retrieved by login should be \"Dusan Vagner\"", teacherByLogin, teacher);
+		// neporovnava ID a heslo (ID je automaticky generovane a heslo zasifrovane...)
+		assertEquals("Created subject should be identical to retrieved", status, statuses.get(0));
 
 		transaction.commit();
 		session.close();
@@ -82,6 +71,6 @@ public class TeacherDaoTest {
 	}
 
 	private void shareSession(Session session) {
-		teacherDao.setSession(session);
+		statusDao.setSession(session);
 	}
 }

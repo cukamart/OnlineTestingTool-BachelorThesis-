@@ -146,17 +146,11 @@ public class TestController {
 
 	@RequestMapping(value = "/viewSpecificTests", method = RequestMethod.GET)
 	public String viewSpecificTests(Model model) {
-		teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
+		Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
 
-		List<Test> tests = testService.findAll();
-		List<SubjectTest> subjectTests = new ArrayList<>();
-
-		for (Test test : tests) {
-			subjectTests.add(subjectTestService.findById(test.getTe_typ()));
-		}
+		List<Test> tests = testService.getAllTestsBySubjectId(subject.getPr_id());
 
 		model.addAttribute("tests", tests);
-		model.addAttribute("subjectTests", subjectTests);
 
 		return "viewSpecificTests";
 	}
@@ -172,7 +166,6 @@ public class TestController {
 			} else {
 				usageList.add(true);
 			}
-			System.out.println(" som tu");
 		}
 
 		model.addAttribute("usageList", usageList);

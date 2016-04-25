@@ -9,7 +9,6 @@
 	<configs>
 		<config>src/sk/uniza/fri/cuka/config/security-context.xml</config>
 		<config>src/sk/uniza/fri/cuka/config/dao-context.xml</config>
-		<config>src/sk/uniza/fri/cuka/config/service-context.xml</config>
 		<config>test/sk/uniza/fri/cuka/test/config/datasource.xml</config>
 	</configs>
 	<autoconfigs>
