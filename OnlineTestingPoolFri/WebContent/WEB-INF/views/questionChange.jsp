@@ -50,7 +50,7 @@
 					</c:if>
 				</div>
 				
-				<form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/questionChanged">
+				<form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/questionChange">
 				
 					<!-- preradit Z -->
 					<div class="form-group">

@@ -43,14 +43,10 @@ public class QuestionController {
 	@Autowired
 	private SubjectTestService subjectTestService;
 
-	private boolean firstTime = false;
+	private Integer questionId;
 
-	private int questionId;
-
-	/**
-	 * Cez Menu - Otazky - Vytvorit, user vyplni formular ako ma vyzerat otazka
-	 */
-	@RequestMapping("/createQuestion")
+	// formular pre vytvorenie otazky
+	@RequestMapping(value = "/createQuestion", method = RequestMethod.GET)
 	public String showCreateQuestion(Model model) {
 		Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
 
@@ -62,35 +58,36 @@ public class QuestionController {
 		model.addAttribute("subjectTests", subjectTests);
 		model.addAttribute("question", new Question());
 
-		firstTime = true;
-
 		return "createQuestion";
 	}
 
-	/**
-	 * Ked submitnem formu v createQuestion presuniem sa sem. Ak som zle vyplnil formu vrati ma naspat na createQuestion a vypise chyby. Ak
-	 * som vyplnil formu spravne insertne do databazy otazku a da mi druhy formular na pridanie odpovede. BUGFIX - ak stlaci user F5 ked je
-	 * na pridavani odpovede presmeruje ho na createQuestion (nesmie pridat 2x tu istu otazku do databazy)
-	 */
+	// ak sa nepodari vytvorit otazku tak napis preco a poziadaj o opravu inak vytvor otazku a presmeruj na pridanie odpovedi
 	@RequestMapping(value = "/addAnswer", method = RequestMethod.POST)
 	public String showAddAnswer(Model model, @Valid Question question, BindingResult result) {
-		Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
-
 		if (result.hasErrors()) {
-			List<SubjectTest> subjectTests = subjectService.getSubjectTestsForSubjectById(subject.getPr_id());
-			model.addAttribute("subjectTests", subjectTests);
+			Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
+
+			model.addAttribute("subjectTests", subjectService.getSubjectTestsForSubjectById(subject.getPr_id()));
 
 			return "createQuestion";
 		}
 
-		// v pripade ze uzivatel refreshne stranku otazka sa znovu nevlozi do databazy
-		if (firstTime) {
-			firstTime = false;
-		} else {
-			return "redirect:addAnswer"; // presmeruje na GET...
+		questionId = questionService.createQuestion(question);
+
+		return "redirect:addAnswer";
+	}
+
+	// pridaj odpoved k prave vytvorenej otazke (ak otazka bola deletnuta alebo user zada rovno URL bez zadania otazky vrati ho na formular
+	// vytvorenia otazky
+	@RequestMapping(value = "/addAnswer", method = RequestMethod.GET)
+	public String showAddMoreAnswer(Model model) {
+		if (questionId == null) {
+			return "redirect:createQuestion";
 		}
 
-		questionId = questionService.createQuestion(question);
+		teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
+
+		model.addAttribute("question", questionService.findById(questionId));
 
 		addAnswersToModel(model);
 
@@ -99,10 +96,8 @@ public class QuestionController {
 		return "addAnswer";
 	}
 
-	/**
-	 * Prida odpoved a presmeruje znovu na pridanie dalsej odpovede, tentokrat cez metodu.GET
-	 */
-	@RequestMapping("/addingAnswer")
+	// prida odpoved k otazke (ak sa nepodari pridat, vyzve ucitela aby vyplnil znenie odpovede spravne)
+	@RequestMapping(value = "/addingAnswer", method = RequestMethod.POST)
 	public String addingAnswer(Model model, @Valid Answer answer, BindingResult result) {
 		Question question = questionService.findById(questionId);
 
@@ -121,21 +116,8 @@ public class QuestionController {
 		return "redirect:addAnswer";
 	}
 
-	@RequestMapping(value = "/addAnswer", method = RequestMethod.GET)
-	public String showAddMoreAnswer(Model model) {
-		teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
-
-		Question question = questionService.findById(questionId);
-		model.addAttribute("question", question);
-
-		addAnswersToModel(model);
-
-		model.addAttribute("answer", new Answer());
-
-		return "addAnswer";
-	}
-
-	@RequestMapping("/viewQuestions")
+	// prehlad otazok na zaklade implicitneho predmetu ucitela
+	@RequestMapping(value = "/viewQuestions", method = RequestMethod.GET)
 	public String showAllQuestions(Model model) {
 		Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
 
@@ -152,20 +134,18 @@ public class QuestionController {
 		return "viewQuestions";
 	}
 
-	@RequestMapping("/deleteQuestion")
+	// delete otazky
+	@RequestMapping(value = "/deleteQuestion", method = RequestMethod.POST)
 	public String deleteQuestion(HttpServletRequest request) {
 		questionService.delete(Integer.parseInt(request.getParameter("questionId")));
+
+		this.questionId = null;
 
 		return "redirect:viewQuestions";
 	}
 
-	private void addAnswersToModel(Model model) {
-		List<Answer> answers = questionService.findById(questionId).getAnswers();
-
-		model.addAttribute("answers", answers);
-	}
-
-	@RequestMapping("/questionChange")
+	// formular pre export otazok
+	@RequestMapping(value = "/questionChange", method = RequestMethod.GET)
 	public String showQuestionChange(Model model) {
 		Subject subject = teacherImplicitSubject.addTeacherAndImplicitSubjectToModel(model);
 
@@ -176,7 +156,8 @@ public class QuestionController {
 		return "questionChange";
 	}
 
-	@RequestMapping(value = "/questionChanged", method = RequestMethod.POST)
+	// vykonanie exportu otazok
+	@RequestMapping(value = "/questionChange", method = RequestMethod.POST)
 	public String changeQuestion(HttpServletRequest request) {
 
 		List<Question> questions = questionService.findQuestionByTestType(Long.parseLong(request.getParameter("from")));
@@ -186,5 +167,11 @@ public class QuestionController {
 		}
 
 		return "redirect:questionChange?question=changed";
+	}
+
+	private void addAnswersToModel(Model model) {
+		List<Answer> answers = questionService.findById(questionId).getAnswers();
+
+		model.addAttribute("answers", answers);
 	}
 }
