@@ -42,7 +42,7 @@
 	    <div class="jumbotron row marginTop">
 	    	<p class="center lead"><c:out value="${test.te_nazov}"></c:out></p><hr/>
 	    	
-	    	<div id="countdown" class="navbar-fixed-top right"><span class="bg-danger">Čas do konca testu: </span>
+	    	<div id="countdown" class="navbar-fixed-top right marginRight"><span class="bg-danger">Čas do konca testu: </span>
 	    		<span class="bg-danger" id="time"></span></div>
 	    	
 	    	<form:form id="myForm" method="post" class="form-horizontal" 
@@ -103,7 +103,11 @@
 	$( document ).ready(function() {
 		var timeLeft = parseInt(document.getElementById("cas").value) * 60;
         display = $('#time');
-    	startTimer(timeLeft, display);
+        if (timeLeft != isNaN){
+        	document.getElementById("countdown").innerHTML = "<span class='bg-danger'>Čas neobmedzený !</span>";
+        } else {
+        	startTimer(timeLeft, display);
+        }
 	});
 	</script>
 

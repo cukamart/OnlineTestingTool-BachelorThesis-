@@ -32,7 +32,11 @@
 	    <div class="jumbotron row marginTop col-md-8 col-md-offset-2">
 	    	
 	    	<form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/editedStudentQuestion">
-	    	
+	    		<div class="alert alert-info" role="alert">
+					<p><span class="glyphicon glyphicon-question-sign">
+						</span><c:out value=" ${question.ot_znenie}"></c:out></p><hr/>
+						<p><span><c:out value="MAX: ${question.ot_body}"></c:out></span></p>
+				</div>
 	    		<p>Počet bodov: <input name="points" type="number" max="${param.max}" required/> 
 	    			<input class="btn btn-success bigMarginLeft" type="submit" value="Uprav Body"/></p>
 	    		<input name="studentTestId" type="hidden" value="${studentTestId}"/>

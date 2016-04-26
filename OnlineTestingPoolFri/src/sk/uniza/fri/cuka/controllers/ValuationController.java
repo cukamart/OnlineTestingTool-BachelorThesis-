@@ -132,6 +132,7 @@ public class ValuationController {
 
 		model.addAttribute("studentTestId", studentTestId);
 		model.addAttribute("studentQuestionId", studentQuestionId);
+		model.addAttribute("question", questionService.findById(studentQuestionId));
 		return "editStudentQuestion";
 	}
 
