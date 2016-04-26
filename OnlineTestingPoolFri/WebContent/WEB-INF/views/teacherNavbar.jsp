@@ -41,7 +41,7 @@
 			            </ul>
 			        </li>
 			        
-			        <li id="valuation" class="dropdown"">
+			        <li id="valuation" class="dropdown">
 			        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 			            		aria-expanded="false"><fmt:message key='Menu.Valuation' /><span class="caret"></span></a>
 			            <ul class="dropdown-menu scrollable-menu">

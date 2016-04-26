@@ -35,6 +35,7 @@
 		<security:intercept-url pattern="/archiveTest" 			  access="hasAuthority('studenti')" />
 		<security:intercept-url pattern="/checkedTest" 		      access="hasAuthority('studenti')" />
 		<security:intercept-url pattern="/questionChange" 		  access="hasAuthority('studenti')" />		
+		<security:intercept-url pattern="/index/uncheckedTests"   access="hasAuthority('studenti')" />	
 		
 		<security:intercept-url pattern="/sindex" 	    access="hasAuthority('studenti')" />
 		<security:intercept-url pattern="/stest" 	    access="hasAuthority('studenti')" />
