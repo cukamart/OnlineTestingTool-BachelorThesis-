@@ -60,7 +60,13 @@
 				   <tr><td></td><td>${te.te_nazov}</td><td>${te.te_datum_zac} ${te.te_cas_zac}</td>
 				       <td>${te.te_datum_kon} ${te.te_cas_kon}</td>
 				       <td><input readonly type="password" id="heslo_${loop.index}" name="password" class="showpassword togglePassword" value="${te.te_heslo}" /><button id="oko_${loop.index}" onclick="showHide(${loop.index})"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-				       <td>${subjectTests[loop.index].nazov}</td></tr>
+				       <td>
+				           <c:forEach var="st" items="${subjectTests}" varStatus="i">
+				               <c:if test="${st.id eq te.te_typ}">
+				               		${st.nazov}
+				               </c:if>
+				           </c:forEach>
+				       </td></tr>
 
 			       </c:forEach>
 		       </table>
