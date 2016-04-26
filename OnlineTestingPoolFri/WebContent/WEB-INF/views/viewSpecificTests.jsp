@@ -51,7 +51,7 @@
 				</div>
 	        
 		        <fieldset>					
-					<legend class="center"><fmt:message key='STest.Preview.TableLegend' /></legend>
+					<legend class="center"><fmt:message key='STest.Preview.TableLegend' /> <i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 				</fieldset>
 		       <table class="table sortable table-striped">
 		       	<thead><tr><th></th><th>Názov</th><th>Otvorený od</th><th>Otvorený do:</th><th>Heslo</th><th>Typ</th></tr></thead>
