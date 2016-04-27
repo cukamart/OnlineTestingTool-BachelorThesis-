@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -37,14 +37,14 @@
 						</span><c:out value=" ${question.ot_znenie}"></c:out></p><hr/>
 						<p><span><c:out value="MAX: ${question.ot_body}"></c:out></span></p>
 				</div>
-	    		<p>Počet bodov: <input name="points" type="number" max="${param.max}" required/> 
-	    			<input class="btn btn-success bigMarginLeft" type="submit" value="Uprav Body"/></p>
+	    		<p><s:message code='StudentQuestion.Body'/><input name="points" type="number" max="${param.max}" required/> 
+	    			<input class="btn btn-success bigMarginLeft" type="submit" value="<s:message code='StudentQuestion.Uprav'/>"/></p>
 	    		<input name="studentTestId" type="hidden" value="${studentTestId}"/>
 	    		<input name="studentQuestionId" type="hidden" value="${studentQuestionId}"/>
 	    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 	    		
 	    	</form>
-	    	<input class="btn btn-primary" action="action" type="button" value="Späť" onclick="window.history.go(-1); return false;" />
+	    	<input class="btn btn-primary" action="action" type="button" value="<s:message code='StudentQuestion.Spat'/>" onclick="window.history.go(-1); return false;" />
 	    </div>
 	</div>
 				

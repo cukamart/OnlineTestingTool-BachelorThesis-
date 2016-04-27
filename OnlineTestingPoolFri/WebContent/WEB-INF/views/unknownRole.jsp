@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@
 	<div class="container">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="alert alert-danger" role="alert" style="top: 30%; position: fixed; left: calc(50% - 161px); font-size: x-large;">
-	  			<p><fmt:message key='Unknown.Message'></fmt:message></p>
+	  			<p><s:message code='Unknown.Message'/></p>
 			</div>
 		</div>
 	</div>

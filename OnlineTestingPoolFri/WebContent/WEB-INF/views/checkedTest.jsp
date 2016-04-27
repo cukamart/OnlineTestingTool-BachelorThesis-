@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -44,11 +44,15 @@
 	        <div class="jumbotron col-md-6 col-md-offset-3">
 	        
 	        	<fieldset>					
-						<legend class="center"><fmt:message key='Teacher.Valuation.Checked' />
+						<legend class="center"><s:message code='Teacher.Valuation.Checked' />
 							<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 				</fieldset>
 	        	<table class="table sortable table-striped">
-	        		<thead><tr><th>Oprav</th><th>Názov</th><th>Študent</th><th>Body</th></tr></thead>
+	        		<thead><tr>
+	        			<th><s:message code='Teacher.Valuation.Oprav'/>
+	        			</th><th><s:message code='Teacher.Valuation.Nazov'/></th><th><s:message code='Teacher.Valuation.Student'/></th>
+	        			<th><s:message code='Teacher.Valuation.Body'/></th>
+	        		</tr></thead>
 	        	<c:forEach var="st" items="${studentTests}">
 	        		<tr>
 	        			<td>

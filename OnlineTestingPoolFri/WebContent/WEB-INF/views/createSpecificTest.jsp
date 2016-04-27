@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -44,17 +45,18 @@
 				<form:form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/viewSpecificTests" commandName="test">
 				
 					<fieldset>					
-						<legend class="center"><fmt:message key='STest.Vytvorit.Nadpis' />
+						<legend class="center"><s:message code='STest.Vytvorit.Nadpis'/>
 							<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 					</fieldset>
 					
 					<!-- nazov testu -->
 					<div class="form-group">
 						<label for="inputName" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='Test.Vytvorit.LNazov' /></label>
+							<s:message code='Test.Vytvorit.LNazov' /></label>
 						<div class="col-sm-9">
+							<s:message code='STest.Vytvorit.PHTitle' var='phTitle'/>
 					    	<form:input path="te_nazov" type="text" class="form-control" id="inputName"
-					    		placeholder="Názov testu napr. 1. zapocet - 5ZI011 pondelok"/>
+					    		placeholder="${phTitle}"/>
 					    	<form:errors path="te_nazov" cssClass="error"></form:errors>
 						</div>
 					</div>
@@ -62,7 +64,7 @@
 					<!-- ku ktoremu typu testu patri -->
 					<div class="form-group">
 					    <label for="inputTestType" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-					    	<fmt:message key='STest.Vytvorit.Typ'></fmt:message></label>
+					    	<s:message code='STest.Vytvorit.Typ'/></label>
 					    <div class="col-sm-9 selectContainer">
 					        <form:select path="te_typ" class="form-control" id="inputTestType">
 					            <c:forEach var="st" items="${subjectTests}">
@@ -76,17 +78,18 @@
 					<div class="form-group">
 						<label data-toggle="pokus" title='<fmt:message key='STest.Vytvorit.ToolTip.Pokus'></fmt:message>'
 							for="inputPokus" class="col-sm-3 control-label"> <span class="glyphicon glyphicon-question-sign"></span>
-							<fmt:message key='STest.Vytvorit.Pokus' /></label>
+							<s:message code='STest.Vytvorit.Pokus'/></label>
 						<div class="col-sm-9">
+							<s:message code='STest.Vytvorit.PHPokus' var='phPokus'/>
 					    	<form:input path="te_pokusov" type="number" class="form-control" id="inputPokus" pattern="[0-9]"
-					    		placeholder="Počet pokusov na test"/>
+					    		placeholder="${phPokus}"/>
 						</div>
 					</div>
 					
 					<!-- datum zaciatok den -->
 					<div class="form-group">
 						<label for="inputDateStart" class="col-sm-3 control-label">
-							<fmt:message key='STest.Vytvorit.DatumZac' /></label>
+							<s:message code='STest.Vytvorit.DatumZac' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_datum_zac" type="date" class="form-control" id="inputDateStart"/>
 						</div>
@@ -95,7 +98,7 @@
 					<!-- datum zaciatok cas -->
 					<div class="form-group">
 						<label for="inputDateStartTime" class="col-sm-3 control-label">
-							<fmt:message key='STest.Vytvorit.DatumZacTime' /></label>
+							<s:message code='STest.Vytvorit.DatumZacTime' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_cas_zac" type="time" class="form-control" id="inputDateStartTime"/>
 						</div>
@@ -104,7 +107,7 @@
 					<!-- datum koniec den -->
 					<div class="form-group">
 						<label for="inputDateKoniec" class="col-sm-3 control-label">
-							<fmt:message key='STest.Vytvorit.DatumKon' /></label>
+							<s:message code='STest.Vytvorit.DatumKon' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_datum_kon" type="date" class="form-control" id="inputDateKoniec"/>
 						</div>
@@ -113,7 +116,7 @@
 					<!-- datum koniec cas -->
 					<div class="form-group">
 						<label for="inputDateKoniecTime" class="col-sm-3 control-label">
-							<fmt:message key='STest.Vytvorit.DatumKonTime' /></label>
+							<s:message code='STest.Vytvorit.DatumKonTime' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_cas_kon" type="time" class="form-control" id="inputDateKoniecTime"/>
 						</div>
@@ -122,10 +125,11 @@
 					<!-- max minut na test -->
 					<div class="form-group">
 						<label for="inputMaxMin" class="col-sm-3 control-label">
-							<fmt:message key='STest.Vytvorit.MaxMinut' /></label>
+							<s:message code='STest.Vytvorit.MaxMinut' /></label>
 						<div class="col-sm-9">
+							<s:message code='STest.Vytvorit.PHMinut' var='phMinut'/>
 					    	<form:input path="te_max_minut" type="number" class="form-control" id="inputMaxMin" pattern="[0-9]"
-					    		placeholder="Zadajte koľko minút je na test"/>
+					    		placeholder="${phMinut}"/>
 						</div>
 					</div>
 					
@@ -134,11 +138,11 @@
 					    <label data-toggle="oneCorrect" title='<fmt:message key='STest.Vytvorit.ToolTip.Jedna'></fmt:message>' 
 					    	for="inputJednaSpravna" class="col-sm-3 control-label">
 					    	<span class="glyphicon glyphicon-question-sign"></span> <span class="glyphicon glyphicon-asterisk"></span>
-					    	<fmt:message key='STest.Vytvorit.JednaSpravna'></fmt:message></label>
+					    	<s:message code='STest.Vytvorit.JednaSpravna'/></label>
 					    <div class="col-sm-9 selectContainer">
 					        <form:select path="te_1_spravna" class="form-control" id="inputJednaSpravna">
-					            <option value="A">ÁNO</option>
-					            <option value="N">NIE</option>
+					            <option value="A"><s:message code='STest.Vytvorit.Ano'/></option>
+					            <option value="N"><s:message code='STest.Vytvorit.Nie'/></option>
 					        </form:select>
 					    </div>
 					</div>
@@ -146,11 +150,11 @@
 					<!-- zaporne body -->
 					<div class="form-group">
 					    <label for="inputZaporne" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-					    	<fmt:message key='STest.Vytvorit.ZaporneBody'></fmt:message></label>
+					    	<s:message code='STest.Vytvorit.ZaporneBody'/></label>
 					    <div class="col-sm-9 selectContainer">
 					        <form:select path="te_zapor_body" class="form-control" id="inputZaporne">
-					            <option value="N">NIE</option>
-					            <option value="A">ÁNO</option>
+					            <option value="N"><s:message code='STest.Vytvorit.Nie'/></option>
+					            <option value="A"><s:message code='STest.Vytvorit.Ano'/></option>
 					        </form:select>
 					    </div>
 					</div>
@@ -160,11 +164,11 @@
 					    <label data-toggle="oneCorrect" title='<fmt:message key='STest.Vytvorit.ToolTip.Celok'></fmt:message>'
 					    	for="inputCelok" class="col-sm-3 control-label">
 					    	<span class="glyphicon glyphicon-question-sign"></span> <span class="glyphicon glyphicon-asterisk"></span>
-					    	<fmt:message key='STest.Vytvorit.OtazkaCelok'></fmt:message></label>
+					    	<s:message code='STest.Vytvorit.OtazkaCelok'/></label>
 					    <div class="col-sm-9 selectContainer">
 					        <form:select path="te_otazka_celok" class="form-control" id="inputCelok">
-					            <option value="A">ÁNO</option>
-					            <option value="N">NIE</option>
+					            <option value="A"><s:message code='STest.Vytvorit.Ano'/></option>
+					            <option value="N"><s:message code='STest.Vytvorit.Nie'/></option>
 					        </form:select>
 					    </div>
 					</div>
@@ -172,7 +176,7 @@
 					<!-- heslo -->
 					<div class="form-group">
 						<label for="inputPass" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='STest.Vytvorit.Password' /></label>
+							<s:message code='STest.Vytvorit.Password' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_heslo" type="text" class="form-control" id="inputPass" maxlength="20"
 					    		placeholder="Heslo ktorým študenti sprístupnia test..."/>
@@ -183,7 +187,7 @@
 					<!-- pouzi skup otazok (read only) -->
 					<div class="form-group">
 						<label for="inputSkuptazok" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='STest.Vytvorit.SkupOtazok' /></label>
+						<s:message code='STest.Vytvorit.SkupOtazok' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_pouz_skup_otazok" type="text" class="form-control" id="inputSkuptazok" readonly="true" value="N"/>
 						</div>
@@ -192,7 +196,7 @@
 					<!-- ID predmetu (read only) -->
 					<div class="form-group">
 						<label for="inputSubject" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='Test.Vytvorit.LIdPr' /></label>
+						<s:message code='Test.Vytvorit.LIdPr' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="te_pr_id" type="text" class="form-control" id="inputSubject" readonly="true" value="${subject.pr_id}"/>
 						</div>
@@ -200,7 +204,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
-							<button type="submit" class="btn btn-info btn-lg confirm"><fmt:message key='Test.Vytvorit.BtnVytvorit' /></button>
+							<button type="submit" class="btn btn-info btn-lg confirm"><s:message code='Test.Vytvorit.BtnVytvorit' /></button>
 						</div>
 					</div>
 					

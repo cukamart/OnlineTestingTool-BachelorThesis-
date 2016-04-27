@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -42,11 +42,11 @@
 	    <div class="row paddingTopNavbar marginTop">
 	        <div class="jumbotron col-md-6 col-md-offset-3">
 	        
-				<p class="lead center"><fmt:message key='Question.Change.Nazov'></fmt:message></p>
+				<p class="lead center"><s:message code='Question.Change.Nazov'/></p>
 				
 				<div class="col-md-8 col-md-offset-2 bold center">
 					<c:if test="${param.question != null}">
-						<div class="alert alert-success" role="success"><fmt:message key='Question.Change.Success' /></div>
+						<div class="alert alert-success" role="success"><s:message code='Question.Change.Success' /></div>
 					</c:if>
 				</div>
 				
@@ -55,7 +55,7 @@
 					<!-- preradit Z -->
 					<div class="form-group">
 					    <label for="questionFrom" class="col-sm-3 control-label">
-					    	<fmt:message key='Question.Change.Z'></fmt:message></label>
+					    	<s:message code='Question.Change.Z'/></label>
 
 					    <div class="col-sm-9 selectContainer">
 					        <select name="from" class="form-control" id="questionFrom">
@@ -70,7 +70,7 @@
 					<!-- preradit Do -->
 					<div class="form-group">
 					    <label for="questionTo" class="col-sm-3 control-label">
-					    	<fmt:message key='Question.Change.DO'></fmt:message></label>
+					    	<s:message code='Question.Change.DO'/></label>
 
 					    <div class="col-sm-9 selectContainer">
 					        <select name="to" class="form-control" id="questionTo">
@@ -85,7 +85,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
-							<button type="submit" class="btn btn-info btn-lg confirm pull-right"><fmt:message key='Question.Change.Btn' /></button>
+							<button type="submit" class="btn btn-info btn-lg confirm pull-right"><s:message code='Question.Change.Btn'/></button>
 						</div>
 					</div>
 				</form>

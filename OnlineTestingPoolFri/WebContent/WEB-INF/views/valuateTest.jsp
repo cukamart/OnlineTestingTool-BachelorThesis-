@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,10 +34,10 @@
 	    
 	    	<div class="alert alert-info" role="alert">
  				 <p><span class="glyphicon glyphicon-info-sign"></span>
- 				 	<fmt:message key='SValuateTest.View'></fmt:message> <b>${studentTest.ste_vysledok}/${studentTest.ste_plnypocet}</b></p>
+ 				 	<s:message code='SValuateTest.View'/><b>${studentTest.ste_vysledok}/${studentTest.ste_plnypocet}</b></p>
 			</div>
 			
-			<a class="btn btn-success" href="<c:url value="/sindex"/>"><fmt:message key='SValuateTest.BtnHome'></fmt:message></a>
+			<a class="btn btn-success" href="<c:url value="/sindex"/>"><s:message code='SValuateTest.BtnHome'/></a>
 	    </div>
 	</div>
 				

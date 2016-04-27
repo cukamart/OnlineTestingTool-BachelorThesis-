@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -45,13 +45,13 @@
 	    	
 	    	<div class="col-md-4 col-md-offset-4">
 	    		<c:if test="${param.error != null}">
-	        		<div class="alert alert-danger center" id="alert-error" role="alert"><fmt:message key='STest.Chyba' /></div>
+	        		<div class="alert alert-danger center" id="alert-error" role="alert"><s:message code='STest.Chyba' /></div>
 	        	</c:if>
 	    	</div>
 	    	
 	        <div class="jumbotron col-md-10 col-md-offset-1">
 	        
-				<p class="center"><span class="bg-info">Zoznam vypísaných testov na <b>šk.rok ${schoolYear}</b> na predmety:
+				<p class="center"><span class="bg-info"><s:message code='STest.Tests'/><b><s:message code='STest.Rok'/>${schoolYear}</b>&nbsp;<s:message code='STest.Predmet'/>
 					<c:forEach var="s" items="${subjects}">
 						<b><c:out value="${s.pr_nazov} [${s.pr_id}]"></c:out></b>
 					</c:forEach></span>
@@ -60,7 +60,7 @@
 				<div class="col-md-6 col-md-offset-3">
 				
 				<table class="table sortable">
-					<tr><th></th><th>Predmet</th><th>Názov Testu</th></tr>
+					<tr><th></th><th><s:message code='Student.STest.Predmet'/></th><th><s:message code='Student.STest.Title'/></th></tr>
 					<c:forEach var="rt" items="${relevantTests}" varStatus="i">
 						<c:if test="${rt.te_pokusov ne pokusov[i.index]}">	
 						
@@ -82,18 +82,18 @@
 					    <div class="modal-content">
 					      <div class="modal-header">
 						      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						      <h4 class="modal-title" id="myModalLabel">Heslo k testu - <div id="tName"></div></h4>
+						      <h4 class="modal-title" id="myModalLabel"><s:message code='STest.Heslo'/><div id="tName"></div></h4>
 					      </div>
 					      <div class="modal-body">
 					      	<div class="input-group">
 					      		<div id="tPokusov"></div>
-					      		<fmt:message key='STest.LHeslo' /> <input name="password" type="text" id="password" value=""/>
+					      		<s:message code='STest.LHeslo' /> <input name="password" type="text" id="password" value=""/>
 					      	</div>
 						 	<input name="testId" type="hidden" id="testId" value=""/>
 					      </div>
 					      <div class="modal-footer">
-					          <button type="button" class="btn btn-info" data-dismiss="modal"><fmt:message key='STest.BtnBack' /></button>
-							  <input  class="btn btn-success" type="submit" value="Potvrdiť"/>
+					          <button type="button" class="btn btn-info" data-dismiss="modal"><s:message code='STest.BtnBack'/></button>
+							  <input  class="btn btn-success" type="submit" value="<s:message code='STest.BtnPotvrdit'/>"/>
 					      </div>
 					    </div>
 					  </div>
@@ -125,9 +125,9 @@
    	    	$(".modal-body #testId").val( testId );
    	    	
    	    	if (pokusov > 0) {
-   	    		pok.innerHTML = "Počet pokusov: " + pokusov + " počet minutých pokusov: " + myPokusov + "<br />" + "<br />";
+   	    		pok.innerHTML = "<s:message code='STest.Pokus' />" + pokusov + "<s:message code='STest.PokusMinute' />" + myPokusov + "<br />" + "<br />";
    	    	} else {
-   	    		pok.innerHTML = "Počet pokusov: neobmedzené" + "<br />" + "<br />";
+   	    		pok.innerHTML = "<s:message code='STest.PokusInf' />" + "<br />" + "<br />";
    	    	}
    	    	
    	    	

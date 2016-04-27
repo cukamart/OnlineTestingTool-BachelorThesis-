@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -46,15 +46,18 @@
 	        
 	        	<div class="center">
 					<c:if test="${param.error != null}">
-						<div class="alert alert-danger bold" id="alert-error" role="alert"><fmt:message key='STest.Preview.Error' /></div>
+						<div class="alert alert-danger bold" id="alert-error" role="alert"><s:message code='STest.Preview.Error' /></div>
 					</c:if>
 				</div>
 	        
 		        <fieldset>					
-					<legend class="center"><fmt:message key='STest.Preview.TableLegend' /> <i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
+					<legend class="center"><s:message code='STest.Preview.TableLegend'/>
+						<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 				</fieldset>
 		       <table class="table sortable table-striped">
-		       	<thead><tr><th></th><th>Názov</th><th>Otvorený od</th><th>Otvorený do:</th><th>Heslo</th><th>Typ</th></tr></thead>
+		       	<thead><tr><th></th><th><s:message code='STest.Preview.Title'/></th>
+		       	<th><s:message code='STest.Preview.Od'/></th><th><s:message code='STest.Preview.Do'/></th>
+		       	<th><s:message code='STest.Preview.Heslo'/></th><th><s:message code='STest.Preview.Typ'/></th></tr></thead>
 			       <c:forEach var="te" items="${tests}" varStatus="loop">
 			       
 				   <tr><td></td><td>${te.te_nazov}</td><td>${te.te_datum_zac} ${te.te_cas_zac}</td>

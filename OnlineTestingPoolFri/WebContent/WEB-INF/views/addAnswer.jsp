@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -52,7 +52,7 @@
 				<c:if test="${fn:length(answers) eq 0}">
 					<div class="alert alert-danger" role="alert">
 						<p><span class="glyphicon glyphicon-exclamation-sign">
-							</span>&nbsp;<fmt:message key='Question.Vytvorit.Warning'></fmt:message></p>
+							</span>&nbsp;<s:message code='Question.Vytvorit.Warning'/></p>
 					</div>
 				</c:if>
 				
@@ -78,13 +78,13 @@
 				<form:form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/addingAnswer" commandName="answer">
 				
 					<fieldset>					
-						<legend class="center"><fmt:message key='Answer.Vytvorit.Nadpis' /></legend>
+						<legend class="center"><s:message code='Answer.Vytvorit.Nadpis'/></legend>
 					</fieldset>
 					
 					<!-- znenie odpovede -->
 					<div class="form-group">
 						<label for="inputAnswer" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='Answer.Vytvorit.LZnenie' /></label>
+							<s:message code='Answer.Vytvorit.LZnenie'/></label>
 						<div class="col-sm-9">
 					    	<form:input path="od_znenie" type="text" class="form-control" id="inputAnswer"
 					    		placeholder="Možná odpoveď k otázke..."/>
@@ -95,11 +95,11 @@
 					<!-- spravna / nespravna -->
 					<div class="form-group">
 					    <label for="inputAnswerType" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-					    	<fmt:message key='Answer.Vytvorit.LOdpoved'></fmt:message></label>
+					    	<s:message code='Answer.Vytvorit.LOdpoved'/></label>
 					    <div class="col-sm-9 selectContainer">
 					        <form:select path="od_sk_id" class="form-control" id="inputAnswerType">
-					            <option value="1">správne</option>
-					            <option value="0">nesprávne</option>
+					            <option value="1"><s:message code='Answer.Vytvorit.Spravne'/></option>
+					            <option value="0"><s:message code='Answer.Vytvorit.Nespravne'/></option>
 					        </form:select>
 					        <form:errors path="od_sk_id" cssClass="error"></form:errors>
 					    </div>
@@ -108,7 +108,7 @@
 					<!-- aktivna (read only) -->
 					<div class="form-group">
 						<label for="inputActive" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='Answer.Vytvorit.LAktivna' /></label>
+						<s:message code='Answer.Vytvorit.LAktivna' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="od_aktivna" type="text" class="form-control" id="inputActive" readonly="true" value="A"/>
 					    	<form:errors path="od_aktivna" cssClass="error"></form:errors>
@@ -118,7 +118,7 @@
 					<!-- ID otazky (read only) -->
 					<div class="form-group">
 						<label for="inputIdQuestion" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='Answer.Vytvorit.LIdOt' /></label>
+						<s:message code='Answer.Vytvorit.LIdOt' /></label>
 						<div class="col-sm-9">
 					    	<form:input path="od_ot_id" type="number" class="form-control" id="inputIdQuestion" readonly="true" value="${question.ot_id}"/>
 					    	<form:errors path="od_ot_id" cssClass="error"></form:errors>
@@ -128,9 +128,9 @@
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
 							<div class="pull-right">
-								<button type="submit" class="btn btn-info btn-lg confirm"><fmt:message key='Answer.Vytvorit.BtnVytvorit' /></button>
+								<button type="submit" class="btn btn-info btn-lg confirm"><s:message code='Answer.Vytvorit.BtnVytvorit' /></button>
 								<a class="btn btn-info btn-lg btn-success confirm bigMarginLeft" href="<c:url value="/createQuestion"/>">
-								<fmt:message key='Answer.Vytvorit.BtnNova' /></a>
+								<s:message code='Answer.Vytvorit.BtnNova' /></a>
 							</div>
 						</div>
 					</div>

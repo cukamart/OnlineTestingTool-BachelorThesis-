@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -70,7 +70,7 @@
 	        
 	        <hr/>
 	        <div class="form-group">
-					<button class="next" type="submit" class="btn btn-info btn-lg confirm"><fmt:message key='STest.Odoslat.BtnSTest' /></button>
+					<button class="next" type="submit" class="btn btn-info btn-lg confirm"><s:message code='STest.Odoslat.BtnSTest' /></button>
 			</div>
 			</form:form>
 	    </div>
@@ -104,7 +104,7 @@
 		var timeLeft = parseInt(document.getElementById("cas").value) * 60;
         display = $('#time');
         if (timeLeft != isNaN){
-        	document.getElementById("countdown").innerHTML = "<span class='bg-danger'>Čas neobmedzený !</span>";
+        	document.getElementById("countdown").innerHTML = "<span class='bg-danger'><s:message code='STest.Cas' /></span>";
         } else {
         	startTimer(timeLeft, display);
         }

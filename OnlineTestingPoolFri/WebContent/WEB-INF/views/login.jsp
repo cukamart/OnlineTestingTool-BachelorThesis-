@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -36,20 +36,20 @@
 		
 		<div class="center">
 			<c:if test="${param.error != null}">
-				<div class="alert alert-danger" id="alert-error" role="alert"><fmt:message key='Login.Chyba' /></div>
+				<div class="alert alert-danger" id="alert-error" role="alert"><s:message code='Login.Chyba'/></div>
 			</c:if>
 		</div>
 		
         <form name='f' action="<c:url value="/login"/>" method='POST'>
         
-            <h2><fmt:message key='Login.Nazov' /> <a href="<c:url value="/"/>"><span class="glyphicon glyphicon-home"></span></a></h2>
+            <h2><s:message code='Login.Nazov'/> <a href="<c:url value="/"/>"><span class="glyphicon glyphicon-home"></span></a></h2>
             
             <div class="input-group">
 	            <span class="input-group-addon">
 	            	<span class="glyphicon glyphicon-user glyphlock"></span>
 	            </span>
 	            <input type='text' name='username' class="form-control" 
-	            	placeholder="<fmt:message key='Login.Meno' />" required autofocus>
+	            	placeholder="<s:message code='Login.Meno'/>" required autofocus>
             </div>
             
             <div class="input-group">
@@ -57,18 +57,18 @@
 	            	<span class="glyphicon glyphicon-lock glyphlock"></span>
 	            </span>
 	            <input type='password' name='password' class="form-control" 
-	            	placeholder="<fmt:message key='Login.Heslo' />" required>
+	            	placeholder="<s:message code='Login.Heslo'/>" required>
             </div>
             
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="remember-me"> <fmt:message key='Login.Zapamataj' />
+                    <input type="checkbox" value="remember-me"> <s:message code='Login.Zapamataj'/>
                 </label>
             </div>
             
             <div class="center">
             <button class="btn btn-lg btn-primary" type="submit" name="submit"
-            	value="Login"><fmt:message key='Login.Prihlasenie'/></button>
+            	value="Login"><s:message code='Login.Prihlasenie'/></button>
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -41,10 +41,10 @@
 
 	        <div class="jumbotron col-md-10">
 				<p class="center"><b>
-					<c:out value="${teacher.uc_meno} ${teacher.uc_priezv} - "></c:out><fmt:message key='TIndex.Predmety' />
+					<c:out value="${teacher.uc_meno} ${teacher.uc_priezv} - "></c:out><s:message code='TIndex.Predmety'/>
 				</b></p>
 				<table id="myDiv" class="table sortable">
-					<tr><th></th><th>Predmet</th><th>Neopravené Testy</th></tr>
+					<tr><th></th><th><s:message code='TIndex.Predmet'/></th><th><s:message code='TIndex.NeopraveneTesty'/></th></tr>
 				<c:forEach var="subject" items="${subjects}">
 				
 					<c:if test="${subject.pr_id eq teacher.uc_pr_id}">
@@ -78,12 +78,12 @@
 	    	</div>
 	    	
 	    	<div class="col-md-2 center">
-	    		<p><fmt:message key='SIndex.SchoolYear' /><c:out value=" ${schoolYear}"></c:out></p>
+	    		<p><s:message code='SIndex.SchoolYear'/><c:out value=" ${schoolYear}"></c:out></p>
 	    		
 	            <jsp:useBean id="date" class="java.util.Date" />
 				<p><fmt:formatDate type="both" value="${date}" /></p>
 				
-				<p><fmt:message key='TIndex.ImplPredmet' /></p>
+				<p><s:message code='TIndex.ImplPredmet'/></p>
 				
 				<c:forEach var="subject" items="${subjects}">
 					<c:if test="${subject.pr_id eq teacher.uc_pr_id}">

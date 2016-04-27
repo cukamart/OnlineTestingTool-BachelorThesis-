@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -46,15 +46,15 @@
 	        <div class="jumbotron col-md-8 col-md-offset-2">
 	        
 	        	<fieldset>					
-						<legend class="center"><fmt:message key='Question.Preview.TableLegend' />
+						<legend class="center"><s:message code='Question.Preview.TableLegend' />
 							<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 				</fieldset>
 	        	<table class="table sortable table-striped">
 	        		<thead><tr><th></th>
-	        		<th><fmt:message key='Question.Preview.Znenie'></fmt:message></th>
-	        			<th><fmt:message key='Question.Preview.Odpoved'></fmt:message></th>
-	        			<th><fmt:message key='Question.Preview.Test'></fmt:message></th>
-	        			<th><fmt:message key='Question.Preview.Body'></fmt:message></th></tr></thead>
+	        		<th><s:message code='Question.Preview.Znenie'/></th>
+	        			<th><s:message code='Question.Preview.Odpoved'/></th>
+	        			<th><s:message code='Question.Preview.Test'/></th>
+	        			<th><s:message code='Question.Preview.Body'/></th></tr></thead>
 	        		
 			        	<c:forEach var="q" items="${questions}" varStatus="stIndex">
 				        	<tr>
@@ -95,15 +95,15 @@
 					    <div class="modal-content">
 					      <div class="modal-header">
 						      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						      <h4 class="modal-title" id="myModalLabel">Naozaj vymazať otázku ?</h4>
+						      <h4 class="modal-title" id="myModalLabel"><s:message code='Question.Preview.Vymazat'/></h4>
 					      </div>
 					      <div class="modal-body">
 					      	<div id="qName" class="alert alert-info"></div>
 						 	<input name="questionId" type="hidden" id="questionId" value=""/>
 					      </div>
 					      <div class="modal-footer">
-					          <button type="button" class="btn btn-info" data-dismiss="modal">Zatvoriť</button>
-							  <input  class="btn btn-danger" type="submit" value="Vymazať"/>
+					          <button type="button" class="btn btn-info" data-dismiss="modal"><s:message code='Question.Preview.Zatvorit'/></button>
+							  <input  class="btn btn-danger" type="submit" value="<s:message code='Question.Preview.BtnVymazat'/>"/>
 					      </div>
 					    </div>
 					  </div>

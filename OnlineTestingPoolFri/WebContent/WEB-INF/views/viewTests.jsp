@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -44,12 +44,16 @@
 	        <div class="jumbotron col-md-6 col-md-offset-3">
 	        
 	        	<fieldset>					
-						<legend class="center"><fmt:message key='Test.Preview.TableLegend' />
+						<legend class="center"><s:message code='Test.Preview.TableLegend'/>
 							<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 				</fieldset>
 	        	<table class="table sortable table-striped">
-	        		<thead><tr><th></th><th>Sk rok</th><th>Predmet ID</th><th>Nazov</th><th>Poradie</th><th>Min</th><th>Sum</th><th>Max</th>
-	        			<th>Penale</th></tr></thead>
+	        		<thead><tr>
+	        			<th></th><th><s:message code='Test.Preview.Skrok'/></th><th><s:message code='Test.Preview.PredmId'/></th>
+	        			<th><s:message code='Test.Preview.Nazov'/></th><th><s:message code='Test.Preview.Poradie'/></th>
+	        			<th><s:message code='Test.Preview.Min'/></th><th><s:message code='Test.Preview.Max'/></th>
+	        			<th><s:message code='Test.Preview.Sum'/></th><th><s:message code='Test.Preview.Penale'/></th>
+	        		</tr></thead>
 	        	<c:forEach var="st" items="${subjectTests}" varStatus="i">
 	        	
 	        		<c:if test="${subjectTest.id eq st.id}">
@@ -57,7 +61,7 @@
 		        		<tr class="success"><td><button id="glyphBtn" type="button" class="glyphicon glyphicon-trash openDialog" data-toggle="modal" 
 						        		data-id="${st.id}" data-znenie="${st.nazov}" data-warning="0" data-target="#myModal"></button></td>
 						    <td>${st.skrok}</td><td>${st.pr_id}</td><td>${st.nazov}</td><td>${st.por}</td>
-		        			<td>${st.min}</td><td>${st.sum}</td><td>${st.max}</td><td>${st.penale}</td></tr>
+		        			<td>${st.min}</td><td>${st.max}</td><td>${st.sum}</td><td>${st.penale}</td></tr>
 		        			
 	        		</c:if>
 	        		
@@ -87,15 +91,15 @@
 					    <div class="modal-content">
 					      <div class="modal-header">
 						      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						      <h4 class="modal-title" id="myModalLabel">Naozaj vymazať test ?</h4>
+						      <h4 class="modal-title" id="myModalLabel"><s:message code='Test.Preview.Vymazat'/></h4>
 					      </div>
 					      <div class="modal-body">
 					      	<div id="qName" class="alert alert-danger"></div>
 						 	<input name="testId" type="hidden" id="testId" value=""/>
 					      </div>
 					      <div class="modal-footer">
-					          <button type="button" class="btn btn-info" data-dismiss="modal">Zatvoriť</button>
-							  <input  class="btn btn-danger" type="submit" value="Vymazať"/>
+					          <button type="button" class="btn btn-info" data-dismiss="modal"><s:message code='Test.Preview.BtnZatvorit'/></button>
+							  <input  class="btn btn-danger" type="submit" value="<s:message code='Test.Preview.BtnVymazat'/>"/>
 					      </div>
 					    </div>
 					  </div>

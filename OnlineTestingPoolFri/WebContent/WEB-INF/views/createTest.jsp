@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
@@ -42,13 +42,13 @@
 	    
 	    	<div class="col-md-8 col-md-offset-2 center bold">
 	    		<c:if test="${param.noTest eq 'true'}">
-	        		<div class="alert alert-danger" role="alert"><fmt:message key='Test.Vytvorit.Otazka'></fmt:message></div>
+	        		<div class="alert alert-danger" role="alert"><s:message code='Test.Vytvorit.Otazka'/></div>
 	        	</c:if>
 	        </div>
 	        
 	        <div class="col-md-8 col-md-offset-2 center bold">
 	    		<c:if test="${param.noTest eq 'true1'}">
-	        		<div class="alert alert-danger" role="alert"><fmt:message key='Test.Vytvorit.STest'></fmt:message></div>
+	        		<div class="alert alert-danger" role="alert"><s:message code='Test.Vytvorit.STest'/></div>
 	        	</c:if>
 	        </div>
 	    
@@ -57,17 +57,18 @@
 				<form:form method="post" class="form-horizontal" action="${pageContext.request.contextPath}/viewTests" commandName="subjectTest">
 				
 					<fieldset>					
-						<legend class="center"><fmt:message key='Test.Vytvorit.Nadpis' />
+						<legend class="center"><s:message code='Test.Vytvorit.Nadpis'/>
 							<i><c:out value="${subject.pr_nazov} [${subject.pr_id}]"></c:out></i></legend>
 					</fieldset>
 					
 					<!-- skolsky rok -->
 					<div class="form-group">
 						<label for="inputYear" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='Test.Vytvorit.LYear' /></label>
+							<s:message code='Test.Vytvorit.LYear'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHSkrok' var='phSkrok'/>
 					    	<form:input path="skrok" type="number" class="form-control" id="inputYear" pattern="[0-9]"
-					    		placeholder="Zadajte školský rok napr. pre 2015/2016 - 2015"/>
+					    		placeholder="${phSkrok}"/>
 					    	<form:errors path="skrok" cssClass="error"></form:errors>
 						</div>
 					</div>
@@ -75,10 +76,11 @@
 					<!-- nazov testu -->
 					<div class="form-group">
 						<label for="inputName" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='Test.Vytvorit.LNazov' /></label>
+							<s:message code='Test.Vytvorit.LNazov'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHTitle' var='phTitle'/>
 					    	<form:input path="nazov" type="text" class="form-control" id="inputName"
-					    		placeholder="Názov testu napr. cvičný / 1. zápočet / skúška..."/>
+					    		placeholder="${phTitle}"/>
 					    	<form:errors path="nazov" cssClass="error"></form:errors>
 						</div>
 					</div>
@@ -86,20 +88,22 @@
 					<!-- poradie testu -->
 					<div class="form-group">
 						<label for="inputPor" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-							<fmt:message key='Test.Vytvorit.LPor' /></label>
+							<s:message code='Test.Vytvorit.LPor'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHPor' var='phOrder'/>
 					    	<form:input path="por" type="number" pattern="[0-9]" class="form-control" id="inputPor"
-					    		placeholder="Poradie testu"/>
+					    		placeholder="${phOrder}"/>
 					    	<form:errors path="por" cssClass="error"></form:errors>
 						</div>
 					</div>
 					
 					<!-- minimalny pocet bodov -->
 					<div class="form-group">
-						<label for="inputMin" class="col-sm-3 control-label"><fmt:message key='Test.Vytvorit.LMin' /></label>
+						<label for="inputMin" class="col-sm-3 control-label"><s:message code='Test.Vytvorit.LMin'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHMin' var='phMin'/>
 					    	<form:input path="min" type="number" pattern="[0-9]" class="form-control" id="inputMin"
-					    		placeholder="Minimálny počet bodov"/>
+					    		placeholder="${phMin}"/>
 					    	<form:errors path="min" cssClass="error"></form:errors>
 						</div>
 					</div>
@@ -107,17 +111,18 @@
 					<!-- maximalny pocet bodov -->
 					<div class="form-group">
 						<label for="inputMax" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='Test.Vytvorit.LMax' /></label>
+						<s:message code='Test.Vytvorit.LMax'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHMax' var='phMax'/>
 					    	<form:input path="max" type="number" pattern="[0-9]" class="form-control" id="inputMax"
-					    		placeholder="Maximálny možný počet bodov"/>
+					    		placeholder="${phMax}"/>
 					    	<form:errors path="max" cssClass="error"></form:errors>
 						</div>
 					</div>
 					
 					<!-- suma, priratat k zapoctu ? -->
 					<div class="form-group">
-						<label for="inputSum" class="col-sm-3 control-label"><fmt:message key='Test.Vytvorit.LSum' /></label>
+						<label for="inputSum" class="col-sm-3 control-label"><s:message code='Test.Vytvorit.LSum'/></label>
 						<div class="col-sm-9">
 					    	<form:checkbox class="checkbox" path="sum" id="inputSum" />
 						</div>
@@ -125,10 +130,11 @@
 					
 					<!-- penale -->
 					<div class="form-group">
-						<label for="inputPenale" class="col-sm-3 control-label"><fmt:message key='Test.Vytvorit.LPenale' /></label>
+						<label for="inputPenale" class="col-sm-3 control-label"><s:message code='Test.Vytvorit.LPenale'/></label>
 						<div class="col-sm-9">
+							<s:message code='Test.Vytvorit.PHPenale' var='phPenale'/>
 					    	<form:input path="penale" type="number" step="0.01" class="form-control" id="inputPenale"
-					    		placeholder="Koeficient, ktorým sa odpočítajú body, ak študent nedosiahne minimum"/>
+					    		placeholder="${phPenale}"/>
 					    	<form:errors path="penale" cssClass="error"></form:errors>
 						</div>
 					</div>
@@ -136,7 +142,7 @@
 					<!-- ID predmetu (read only) -->
 					<div class="form-group">
 						<label for="inputSubject" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>
-						<fmt:message key='Test.Vytvorit.LIdPr' /></label>
+						<s:message code='Test.Vytvorit.LIdPr'/></label>
 						<div class="col-sm-9">
 					    	<form:input path="pr_id" type="text" class="form-control" id="inputSubject" readonly="true" value="${subject.pr_id}"/>
 					    	<form:errors path="pr_id" cssClass="error"></form:errors>
@@ -145,7 +151,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
-							<button type="submit" class="btn btn-info btn-lg confirm"><fmt:message key='Test.Vytvorit.BtnVytvorit' /></button>
+							<button type="submit" class="btn btn-info btn-lg confirm"><s:message code='Test.Vytvorit.BtnVytvorit'/></button>
 						</div>
 					</div>
 					

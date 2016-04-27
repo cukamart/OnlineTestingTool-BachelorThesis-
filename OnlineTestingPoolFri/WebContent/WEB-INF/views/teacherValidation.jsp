@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -52,21 +52,21 @@
 				
 				<br/>
 				<c:if test="${q.ot_typ eq 'text'}">
-					<b><span class="bg-info">Študentova odpoveď: ${studentQuestions[i.index].sot_textodpoved}</span><br/>
+					<b><span class="bg-info"><s:message code='Teacher.Validation.SAnswer'/> ${studentQuestions[i.index].sot_textodpoved}</span><br/>
 						<a href="<c:url value="/editStudentQuestion/${studentTest.ste_id}/${studentQuestions[i.index].sot_ot_id}"/>">
 							<span class="glyphicon glyphicon-pencil"></span>
-							Body: ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
+							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
 				</c:if>
 				<c:if test="${q.ot_typ eq 'ABCD'}">
-					<b><span class="bg-info">Študentova odpoveď: ${answers[i.index]}</span><br/>
+					<b><span class="bg-info"><s:message code='Teacher.Validation.SAnswer'/> ${answers[i.index]}</span><br/>
 						<a href="<c:url value="/editStudentQuestion/${studentTest.ste_id}/${studentQuestions[i.index].sot_ot_id}?max=${q.ot_body}"/>">
 							<span class="glyphicon glyphicon-pencil"></span>
-							Body: ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
+							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
 				</c:if>
 	    		<hr/>
 	    	</c:forEach>
 	    	
-	    	<a class="btn btn-info btn-lg confirm pull-right" href="<c:url value="/checkedTest?studTestId=${studentTest.ste_id}"/>">Test skontrolovaný</a>
+	    	<a class="btn btn-info btn-lg confirm pull-right" href="<c:url value="/checkedTest?studTestId=${studentTest.ste_id}"/>"><s:message code='Teacher.Validation.BtChecked'/></a>
 	    </div>
 	</div>
 				
