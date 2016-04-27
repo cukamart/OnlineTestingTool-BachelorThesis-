@@ -52,26 +52,27 @@
 						<td><span class="glyphicon glyphicon-menu-right"></span></td>
 	        			<td><b><c:out value="${subject.pr_nazov}"></c:out></b></td>
 	        			<td><div><b><span id="${subject.pr_id}">(0)</span></b></div></td>
+	        			</tr>
 	        		</c:if>
 	        		
 	        		<c:if test="${subject.pr_id ne teacher.uc_pr_id}">
 	        			<tr data-link="row" class="rowlink table-info">
 	        			<form:form method="post">
-	        				<p>
-	        					<td><span class="glyphicon glyphicon-menu-right"></span></td>
-	        					<td>
-	        						<button type="submit" name="subjectId" value="${subject.pr_id}" class="btn-link">
-	        							<c:out value="${subject.pr_nazov}"></c:out>
-	        						</button>
-	        					</td>
-	        					<td>
-	        						<div><span id="${subject.pr_id}">(0)</span></div>
-	        					</td>
-	        				</p>
+		        			<td><span class="glyphicon glyphicon-menu-right"></span></td>
+		        			<td>
+		        				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
+		        				<button type="submit" name="subjectId" value="${subject.pr_id}" class="btn-link">
+		        					<c:out value="${subject.pr_nazov}"></c:out>
+		        				</button>
+		        			</td>
+		        			<td>
+		        				<div><span id="${subject.pr_id}">(0)</span></div>
+		        			</td>
 	        			</form:form>
+	        			</tr>
 	        		</c:if>
 	        		
-	        		</tr>
+	        		
 	    		</c:forEach>
 	    		</table>
 	    	</div>
@@ -113,7 +114,7 @@
    		}
    		
    		function updatePage() {
-   	   		$.getJSON("<c:url value="/index/uncheckedTests"/>", updateTest);
+   	   		$.getJSON("<c:url value="/json/uncheckedTests"/>", updateTest);
    		}
    		
    		$(document).ready(onLoad);
