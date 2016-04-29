@@ -1,5 +1,7 @@
 package sk.uniza.fri.cuka.config;
 
+import java.util.Locale;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,7 +47,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean(name = "localeResolver")
 	public LocaleResolver getLocaleResolver() {
-		return new CookieLocaleResolver();
+		final CookieLocaleResolver ret = new CookieLocaleResolver();
+		ret.setDefaultLocale(new Locale("sk"));
+		return ret;
 	}
 
 	@Bean
