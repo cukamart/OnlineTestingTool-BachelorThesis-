@@ -7,9 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>src/sk/uniza/fri/cuka/config/security-context.xml</config>
 		<config>src/sk/uniza/fri/cuka/config/dao-context.xml</config>
 		<config>test/sk/uniza/fri/cuka/test/config/datasource.xml</config>
+		<config>src/sk/uniza/fri/cuka/config/security-context.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

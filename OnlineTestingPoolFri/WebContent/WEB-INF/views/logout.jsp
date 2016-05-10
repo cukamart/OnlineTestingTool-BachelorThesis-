@@ -34,7 +34,7 @@
 	<div class="container">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="alert alert-info" role="alert" style="top: 30%; position: fixed; left: calc(50% - 161px); font-size: x-large;">
-	  			<p><s:message code='Logout.Nazov'/></p>
+	  			<p><s:message code='Logout.Nazov'/> <a href="<c:url value="/"/>"><span class="glyphicon glyphicon-home"></span></a></p>
 	  			<p style="font-size: 20%;" id="download"></p>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 		var logoutMsg = document.getElementById("download");
 		var counter = 5;
 		var newElement = document.createElement("p");
-		newElement.innerHTML = "<fmt:message key='Logout.Redirect'></fmt:message> 5 <fmt:message key='Logout.Seconds'></fmt:message>";
+		newElement.innerHTML = "<fmt:message key='Logout.Redirect'></fmt:message><fmt:message key='Logout.Seconds'></fmt:message>";
 		var id;
 
 		logoutMsg.parentNode.replaceChild(newElement, logoutMsg);

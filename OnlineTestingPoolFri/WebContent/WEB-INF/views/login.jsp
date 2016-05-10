@@ -39,7 +39,6 @@
 				<div class="alert alert-danger" id="alert-error" role="alert"><s:message code='Login.Chyba'/></div>
 			</c:if>
 		</div>
-		
         <form name='f' action="<c:url value="/login"/>" method='POST'>
         
             <h2><s:message code='Login.Nazov'/> <a href="<c:url value="/"/>"><span class="glyphicon glyphicon-home"></span></a></h2>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,12 +22,7 @@
 		integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
 		crossorigin="anonymous">
 	
-	<link href="<c:url value="/resources/css/background.css"/>"
-		rel="stylesheet" type="text/css">
-	<link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet"
-		type="text/css">
-		
-	<link href="<c:url value="/resources/css/navbar.css"/>" rel="stylesheet" type="text/css" >
+	<link href="<c:url value="/resources/css/background.css"/>" rel="stylesheet" type="text/css">
 	<link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css" >
 	<link href="<c:url value="/resources/css/countdown.css"/>" rel="stylesheet" type="text/css" >
 	<link href="<c:url value="/resources/css/form.css"/>" rel="stylesheet" type="text/css" >
@@ -70,7 +65,7 @@
 	        
 	        <hr/>
 	        <div class="form-group">
-					<button class="next" type="submit" class="btn btn-info btn-lg confirm"><s:message code='STest.Odoslat.BtnSTest' /></button>
+					<button type="submit" class="btn btn-success btn-lg success"><s:message code='STest.Odoslat.BtnSTest' /></button>
 			</div>
 			</form:form>
 	    </div>
@@ -103,7 +98,7 @@
 	$( document ).ready(function() {
 		var timeLeft = parseInt(document.getElementById("cas").value) * 60;
         display = $('#time');
-        if (timeLeft != isNaN){
+        if (!timeLeft){
         	document.getElementById("countdown").innerHTML = "<span class='bg-danger'><s:message code='STest.Cas' /></span>";
         } else {
         	startTimer(timeLeft, display);
