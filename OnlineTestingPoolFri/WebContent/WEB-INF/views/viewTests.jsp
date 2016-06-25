@@ -61,7 +61,7 @@
 		        		<tr class="success"><td><button id="glyphBtn" type="button" class="glyphicon glyphicon-trash openDialog" data-toggle="modal" 
 						        		data-id="${st.id}" data-znenie="${st.nazov}" data-warning="0" data-target="#myModal"></button></td>
 						    <td>${st.skrok}</td><td>${st.pr_id}</td><td>${st.nazov}</td><td>${st.por}</td>
-		        			<td>${st.min}</td><td>${st.max}</td><td>${st.sum}</td><td>${st.penale}</td></tr>
+		        			<td>${st.min}</td><td>${st.sum}</td><td>${st.max}</td><td>${st.penale}</td></tr>
 		        			
 	        		</c:if>
 	        		

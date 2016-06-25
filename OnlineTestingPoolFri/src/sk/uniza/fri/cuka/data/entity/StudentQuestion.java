@@ -39,7 +39,7 @@ public class StudentQuestion {
 	@OneToMany(mappedBy = "studentQuestion", cascade = CascadeType.ALL)
 	private List<StudentAnswer> studentAnswers = new ArrayList<>();
 
-	private Integer sot_body;
+	private Integer sot_body = 0;
 	private Integer sot_poradie;
 	private String sot_textodpoved;
 	private Integer sot_body_new = 0;

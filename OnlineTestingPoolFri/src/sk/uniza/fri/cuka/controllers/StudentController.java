@@ -1,5 +1,7 @@
 package sk.uniza.fri.cuka.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -13,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.common.net.InetAddresses;
+
 import sk.uniza.fri.cuka.data.entity.Answer;
 import sk.uniza.fri.cuka.data.entity.Question;
 import sk.uniza.fri.cuka.data.entity.RegisteredSubject;
@@ -25,6 +29,7 @@ import sk.uniza.fri.cuka.data.entity.WrapperStudentQuestion;
 import sk.uniza.fri.cuka.data.entity.ids.StudentQuestionId;
 import sk.uniza.fri.cuka.ldap.LdapInfo;
 import sk.uniza.fri.cuka.model.CurrentSchoolYear;
+import sk.uniza.fri.cuka.model.IpAddressWorker;
 import sk.uniza.fri.cuka.model.enums.QuestionType;
 import sk.uniza.fri.cuka.model.enums.Result;
 import sk.uniza.fri.cuka.service.AnswerService;
@@ -35,7 +40,6 @@ import sk.uniza.fri.cuka.service.StudentTestService;
 import sk.uniza.fri.cuka.service.SubjectService;
 import sk.uniza.fri.cuka.service.TestService;
 
-//TODO - logiku dat do MODELU !!!, celkovo refactor tejto triedy...
 @Controller
 public class StudentController {
 
@@ -55,6 +59,9 @@ public class StudentController {
 	private LdapInfo ldapInfo;
 
 	@Autowired
+	private IpAddressWorker ipAddressWorker;
+
+	@Autowired
 	private StudentTestService studentTestService;
 
 	@Autowired
@@ -71,7 +78,7 @@ public class StudentController {
 	@RequestMapping("/sindex")
 	public String showsIndex(Model model) {
 		Student student = studentService.getStudentByLogin(ldapInfo.getLdapLogin());
-		
+
 		// zapisane predmety studenta na aktualny skolsky rok
 		List<RegisteredSubject> registeredSubjects = studentService
 				.getStudentsRegisteredSubjectsCurrentSchoolYear(student.getSt_id());
@@ -99,32 +106,38 @@ public class StudentController {
 	}
 
 	@RequestMapping("/stest")
-	public String showsTest(Model model) {
+	public String showsTest(Model model) throws UnknownHostException {
 		Student student = studentService.getStudentByLogin(ldapInfo.getLdapLogin());
 
 		// vrati zapisane predmety studenta na aktualny sk. rok
 		List<RegisteredSubject> registeredSubjects = studentService
 				.getStudentsRegisteredSubjectsCurrentSchoolYear(student.getSt_id());
 
-		// nazov predmetu (zo zapisanych viem iba ID - citatelnejsie pre uzivatela)
-		List<Subject> subjects = new ArrayList<>();
-		for (RegisteredSubject rs : registeredSubjects) {
-			subjects.add(subjectService.getSubjectById(rs.getZp_pr_id())); // nazov predmetu (nie len ID)
-		}
-
 		// vrati testy pre tento rok
-		 List<Test> currentYearTests = testService.getAllCurrentYearTests(currentSchoolYear.getCurrentSchoolYear());
+		List<Test> currentYearTests = testService.getAllCurrentYearTests(currentSchoolYear.getCurrentSchoolYear());
 
 		// vrati testy ktore moze student este vypracovat (neriesi pocet Pokusov to sa riesi az na stranke)
 		List<Test> relevantTests = new ArrayList<>();
+
 		for (RegisteredSubject rs : registeredSubjects) {
 			for (Test ct : currentYearTests) {
 				if (rs.getZp_pr_id().equals(ct.getTe_pr_id())) { // testy na predmet ktore ma student zapisany
 					if (isAvailable(ct)) { // je este test k danemu datumu otvoreny ?
-						relevantTests.add(ct);
+						InetAddress ipMin = InetAddresses.forString(ct.getTe_ip_min());
+						InetAddress ipMax = InetAddresses.forString(ct.getTe_ip_max());
+
+						if (ipAddressWorker.isInRange(ipMin, ipMax)) {
+							relevantTests.add(ct);
+						}
 					}
 				}
 			}
+		}
+
+		// nazov predmetu (zo zapisanych viem iba ID - citatelnejsie pre uzivatela)
+		List<Subject> subjects = new ArrayList<>();
+		for (RegisteredSubject rs : registeredSubjects) {
+			subjects.add(subjectService.getSubjectById(rs.getZp_pr_id()));
 		}
 
 		// zisti kolko pokusov na dany test uz student mal...

@@ -177,5 +177,17 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.3.Final</version>
 		</dependency>
+
+		<!-- IP adresy GUAVA -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r05</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -8,9 +8,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sk.uniza.fri.cuka.data.entity.Question;
 import sk.uniza.fri.cuka.data.entity.Student;
@@ -108,8 +110,12 @@ public class ValuationController {
 				.getAllStudentQuestionsByTestId(studentTest.getSte_id());
 
 		int sum = 0;
+		int max = studentTest.getSte_plnypocet();
 		for (StudentQuestion sq : studentQuestions) {
 			sum += sq.getSot_body();
+			if (sq.getSot_body_new() != null) {
+				sum += sq.getSot_body_new();
+			}
 		}
 
 		studentTest = studentTestService.setResults(studentTestId, sum);
@@ -119,17 +125,27 @@ public class ValuationController {
 
 		findOutStudentAnswersToQuestions(studentQuestions, questions, answers);
 
+		Student student = studentService.findById(studentTest.getSte_st_id());
+
 		model.addAttribute("studentQuestions", studentQuestions);
 		model.addAttribute("questions", questions);
 		model.addAttribute("answers", answers);
+		model.addAttribute("student", student);
 		model.addAttribute("studentTest", studentTest);
+		model.addAttribute("sum", sum);
+		model.addAttribute("max", max);
 
 		return "teacherValidation";
 	}
 
 	@RequestMapping("/editStudentQuestion/{studentTestId}/{studentQuestionId}")
-	public String showEditQuestion(@PathVariable int studentTestId, @PathVariable int studentQuestionId, Model model) {
+	public String showEditQuestion(@PathVariable long studentTestId, @PathVariable int studentQuestionId, Model model,
+			@ModelAttribute("uc_text") final String ucText) {
 
+		StudentQuestionId stQId = new StudentQuestionId(studentTestId, studentQuestionId);
+		StudentQuestion studentQuestion = studentQuestionService.findById(stQId);
+		model.addAttribute("studentQuestion", studentQuestion);
+		model.addAttribute("ucText", ucText);
 		model.addAttribute("studentTestId", studentTestId);
 		model.addAttribute("studentQuestionId", studentQuestionId);
 		model.addAttribute("question", questionService.findById(studentQuestionId));
@@ -138,11 +154,23 @@ public class ValuationController {
 
 	@RequestMapping("/editedStudentQuestion")
 	public String editQuestionPoints(@RequestParam("studentTestId") String studentTestId,
-			@RequestParam("studentQuestionId") String studentQuestionId, @RequestParam("points") String points) {
+			@RequestParam("studentQuestionId") String studentQuestionId, @RequestParam("points") String points,
+			@RequestParam("confirm") String confirm, @RequestParam("uc_text") String ucText,
+			final RedirectAttributes redirectAttributes) {
+
+		Question question = questionService.findById(Integer.parseInt(studentQuestionId));
 
 		StudentQuestionId studQuestionId = new StudentQuestionId(Long.parseLong(studentTestId),
 				Integer.parseInt(studentQuestionId));
 
+		if (question.getOt_body() < Integer.parseInt(points) && confirm.equals("false")) {
+			redirectAttributes.addFlashAttribute("uc_text", ucText);
+
+			return "redirect:editStudentQuestion/" + Long.parseLong(studentTestId) + "/"
+					+ Integer.parseInt(studentQuestionId) + "?confirm=true&points=" + Integer.parseInt(points);
+		}
+
+		studentQuestionService.setUcText(studQuestionId, ucText);
 		studentQuestionService.setPoints(studQuestionId, Integer.parseInt(points));
 
 		return "redirect:teacherValidation/" + studentTestId;

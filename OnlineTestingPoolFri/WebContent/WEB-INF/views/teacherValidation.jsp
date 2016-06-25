@@ -36,6 +36,8 @@
 	<div class="container">
 	    <div class="jumbotron row marginTop col-md-8 col-md-offset-2">
 	    
+	    	<p>Študent: <b>${student.st_meno} ${student.st_priezv}</b></p>
+	    	<hr/>
 	    	<c:forEach var="q" items="${questions}" varStatus="i">
 	    		<p>${q.ot_znenie}</p>
 	    		
@@ -55,16 +57,36 @@
 					<b><span class="bg-info"><s:message code='Teacher.Validation.SAnswer'/> ${studentQuestions[i.index].sot_textodpoved}</span><br/>
 						<a href="<c:url value="/editStudentQuestion/${studentTest.ste_id}/${studentQuestions[i.index].sot_ot_id}"/>">
 							<span class="glyphicon glyphicon-pencil"></span>
-							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
+							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body}
+							
+							<c:if test="${not empty studentQuestions[i.index].sot_body_new}">
+								<span class="red">+ ${studentQuestions[i.index].sot_body_new} </span>
+							</c:if>
+							
+							 / ${q.ot_body}</a></b><br/>
+							<c:if test="${not empty studentQuestions[i.index].sot_uc_text}">
+								Komentár: ${studentQuestions[i.index].sot_uc_text}
+							</c:if>
 				</c:if>
 				<c:if test="${q.ot_typ eq 'ABCD'}">
 					<b><span class="bg-info"><s:message code='Teacher.Validation.SAnswer'/> ${answers[i.index]}</span><br/>
 						<a href="<c:url value="/editStudentQuestion/${studentTest.ste_id}/${studentQuestions[i.index].sot_ot_id}?max=${q.ot_body}"/>">
 							<span class="glyphicon glyphicon-pencil"></span>
-							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body} / ${q.ot_body}</a></b><br/>
+							<s:message code='Teacher.Validation.Body'/> ${studentQuestions[i.index].sot_body} 
+							
+							<c:if test="${not empty studentQuestions[i.index].sot_body_new}">
+								<span class="red">+ ${studentQuestions[i.index].sot_body_new} </span>
+							</c:if>
+							
+							/ ${q.ot_body}</a></b><br/>
+							<c:if test="${not empty studentQuestions[i.index].sot_uc_text}">
+								Komentár: ${studentQuestions[i.index].sot_uc_text}
+							</c:if>
 				</c:if>
 	    		<hr/>
 	    	</c:forEach>
+	    	
+	    	<p>Celkový počet bodov: ${sum}/${max}</p>
 	    	
 	    	<a class="btn btn-info btn-lg confirm pull-right" href="<c:url value="/checkedTest?studTestId=${studentTest.ste_id}"/>"><s:message code='Teacher.Validation.BtChecked'/></a>
 	    </div>

@@ -184,6 +184,26 @@
 						
 					</div>
 					
+					<!-- IP MIN -->
+					<div class="form-group">
+						<label for="inputIpMin" class="col-sm-3 control-label">
+							<s:message code='STest.Vytvorit.IpMin' /></label>
+						<div class="col-sm-9">
+					    	<form:input path="te_ip_min" type="text" class="form-control" id="inputIpMin" maxlength="15"
+					    		placeholder="Povolené IP adresy od..."/>
+						</div>
+					</div>
+					
+					<!-- IP MAX -->
+					<div class="form-group">
+						<label for="inputIpMax" class="col-sm-3 control-label">
+							<s:message code='STest.Vytvorit.IpMax' /></label>
+						<div class="col-sm-9">
+					    	<form:input path="te_ip_max" type="text" class="form-control" id="inputIpMax" maxlength="15"
+					    		placeholder="Povolené IP adresy do..."/>
+						</div>
+					</div>
+					
 					<!-- pouzi skup otazok (read only) -->
 					<div class="form-group">
 						<label for="inputSkuptazok" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk"></span>

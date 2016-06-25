@@ -17,25 +17,25 @@
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/resources/**" access="permitAll" />
 		
-		<security:intercept-url pattern="/index"				  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/createTest" 			  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/viewTests" 			  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/createQuestion" 		  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/addAnswer" 			  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/addingAnswer" 		  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/viewQuestions" 		  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/deleteQuestion" 		  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/deletePredmTest"        access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/createSpecificTest" 	  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/viewSpecificTests"      access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/listOfStudentTests"     access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/teacherValidation/*"    access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/editStudentQuestion/**" access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/editedStudentQuestion"  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/archiveTest" 			  access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/checkedTest" 		      access="hasAuthority('ucitelia')" />
-		<security:intercept-url pattern="/questionChange" 		  access="hasAuthority('ucitelia')" />		
-		<security:intercept-url pattern="/json/uncheckedTests"    access="hasAuthority('ucitelia')" />	
+		<security:intercept-url pattern="/index"				  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/createTest" 			  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/viewTests" 			  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/createQuestion" 		  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/addAnswer" 			  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/addingAnswer" 		  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/viewQuestions" 		  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/deleteQuestion" 		  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/deletePredmTest"        access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/createSpecificTest" 	  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/viewSpecificTests"      access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/listOfStudentTests"     access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/teacherValidation/*"    access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/editStudentQuestion/**" access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/editedStudentQuestion"  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/archiveTest" 			  access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/checkedTest" 		      access="hasAuthority('studenti')" />
+		<security:intercept-url pattern="/questionChange" 		  access="hasAuthority('studenti')" />		
+		<security:intercept-url pattern="/json/uncheckedTests"    access="hasAuthority('studenti')" />	
 		
 		<security:intercept-url pattern="/sindex" 	    access="hasAuthority('studenti')" />
 		<security:intercept-url pattern="/stest" 	    access="hasAuthority('studenti')" />

@@ -81,11 +81,13 @@
 					    </div>
 					</div>
 					
+					<span class="pull-right"><input type="checkbox" name="kopia" checked/> Ponechať otázky aj v pôvodnom teste ?</span><br/>
+					
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> 
 					
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
-							<button type="submit" class="btn btn-info btn-lg confirm pull-right"><s:message code='Question.Change.Btn'/></button>
+							<p><button type="submit" class="btn btn-info btn-lg confirm pull-right marginTop"><s:message code='Question.Change.Btn'/></button></p>
 						</div>
 					</div>
 				</form>

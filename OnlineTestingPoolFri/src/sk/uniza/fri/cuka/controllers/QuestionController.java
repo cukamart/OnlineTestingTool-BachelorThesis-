@@ -144,6 +144,41 @@ public class QuestionController {
 		return "redirect:viewQuestions";
 	}
 
+	// vykonanie exportu otazok
+	@RequestMapping(value = "/questionChange", method = RequestMethod.POST)
+	public String changeQuestion(HttpServletRequest request) {
+		List<Question> questions = questionService.findQuestionByTestType(Long.parseLong(request.getParameter("from")));
+
+		if (request.getParameter("kopia") == null) {
+			for (Question q : questions) {
+				questionService.changeQuestionTestType(q, Long.parseLong(request.getParameter("to")));
+			}
+
+			return "redirect:questionChange?question=changed";
+		}
+
+		Long predmId = Long.parseLong(request.getParameter("to"));
+
+		for (int i = 0; i < questions.size(); i++) {
+			List<Answer> answers = questions.get(i).getAnswers();
+			Question question = new Question(questions.get(i).getOt_znenie(), questions.get(i).getOt_pr_id(),
+					questions.get(i).getOt_aktivna(), questions.get(i).getOt_oprava(), questions.get(i).getOt_typ(),
+					questions.get(i).getOt_body(), questions.get(i).getOt_sk_id(),
+					questions.get(i).getOt_obrazok_meno(), questions.get(i).getOt_obrazok_type(), predmId,
+					questions.get(i).getOt_model());
+
+			int questionId = questionService.createQuestion(question);
+			Question newQuestion = questionService.findById(questionId);
+			for (Answer answer : answers) {
+				Answer ans = new Answer(answer.getOd_znenie(), newQuestion.getOt_id(), answer.getOd_aktivna(),
+						answer.getOd_oprava(), answer.getOd_sk_id(), answer.getOd_obrazok_meno(),
+						answer.getOd_obrazok_type());
+				answerService.create(ans, newQuestion);
+			}
+		}
+		return "redirect:questionChange?question=changed";
+	}
+
 	// formular pre export otazok
 	@RequestMapping(value = "/questionChange", method = RequestMethod.GET)
 	public String showQuestionChange(Model model) {
@@ -154,19 +189,6 @@ public class QuestionController {
 		model.addAttribute("subjectTests", subjectTests);
 
 		return "questionChange";
-	}
-
-	// vykonanie exportu otazok
-	@RequestMapping(value = "/questionChange", method = RequestMethod.POST)
-	public String changeQuestion(HttpServletRequest request) {
-
-		List<Question> questions = questionService.findQuestionByTestType(Long.parseLong(request.getParameter("from")));
-
-		for (Question q : questions) {
-			questionService.changeQuestionTestType(q, Long.parseLong(request.getParameter("to")));
-		}
-
-		return "redirect:questionChange?question=changed";
 	}
 
 	private void addAnswersToModel(Model model) {

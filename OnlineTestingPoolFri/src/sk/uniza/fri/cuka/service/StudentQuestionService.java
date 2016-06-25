@@ -96,7 +96,21 @@ public class StudentQuestionService {
 		Transaction tx = session.beginTransaction();
 
 		StudentQuestion studentQuestion = studentQuestionDao.findById(id);
-		studentQuestion.setSot_body(points);
+		studentQuestion.setSot_body_new(points);
+
+		studentQuestionDao.create(studentQuestion);
+
+		tx.commit();
+		session.close();
+	}
+
+	public void setUcText(StudentQuestionId id, String ucText) {
+		Session session = sessionFactory.openSession();
+		studentQuestionDao.setSession(session);
+		Transaction tx = session.beginTransaction();
+
+		StudentQuestion studentQuestion = studentQuestionDao.findById(id);
+		studentQuestion.setSot_uc_text(ucText);
 
 		studentQuestionDao.create(studentQuestion);
 
