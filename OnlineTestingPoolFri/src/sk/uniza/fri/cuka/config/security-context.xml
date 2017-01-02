@@ -4,15 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">		
 
-	<security:authentication-manager erase-credentials="true" >
-		<security:authentication-provider ref="ldapActiveDirectoryAuthProvider" />
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user  name="cuka1" authorities="studenti" password="1111"/>
+			</security:user-service>
+		</security:authentication-provider>
 	</security:authentication-manager>
-
-	<bean id="ldapActiveDirectoryAuthProvider"
-		class="org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider">
-		<constructor-arg value="fri.uniza.sk" />
-		<constructor-arg value="ldaps://pegasus.fri.uniza.sk/" />
-	</bean>
 
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/resources/**" access="permitAll" />

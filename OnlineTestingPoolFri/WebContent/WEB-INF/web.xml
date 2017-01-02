@@ -52,7 +52,7 @@
 	<!-- Pripojenie na databazu -->
 	<resource-ref>
 		<description>postgreSQL Datasource example</description>
-		<res-ref-name>jdbc/testingpool</res-ref-name> <!-- dataSource definovany v tomcat -->
+		<res-ref-name>jdbc/postgres</res-ref-name> <!-- dataSource definovany v tomcat -->
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>

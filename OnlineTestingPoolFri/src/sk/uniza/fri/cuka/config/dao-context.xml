@@ -16,7 +16,7 @@
 	<beans profile="production">
 
 		<!-- Vytvori javax.sql.DataSource ktory mozem injectnut do java classy (StudentDAO) -->
-		<jee:jndi-lookup jndi-name="jdbc/testingpool" id="dataSource"
+		<jee:jndi-lookup jndi-name="jdbc/postgres" id="dataSource"
 			expected-type="javax.sql.DataSource">
 		</jee:jndi-lookup>
 		
