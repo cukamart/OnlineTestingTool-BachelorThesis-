@@ -44,6 +44,9 @@ public class ValuationDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Hodnotenie predmetu. V sucasnosti si aplikacia vystaci z CRUD operaciami
+	 */
 	@Test
 	public void testCreateandGetStatus() {
 		Session session = sessionFactory.openSession();
@@ -52,14 +55,22 @@ public class ValuationDaoTest {
 
 		Valuation valuation = new Valuation("A", null, null, 91);
 		valuationDao.create(valuation);
+		Valuation valuation2 = new Valuation("B", null, null, 81);
+		valuationDao.create(valuation2);
 
 		List<Valuation> valuations;
 
 		valuations = valuationDao.findAll();
 
-		assertEquals("Number of valuations should be 1", 1, valuations.size());
+		assertEquals("Number of valuations should be 2", 2, valuations.size());
 
 		assertEquals("Created valuation should be identical to retrieved", valuation, valuations.get(0));
+
+		valuation2.setHo_popis("novy popis");
+		valuationDao.create(valuation2);
+
+		assertEquals("Updated valuation description should be novy popis", valuation2.getHo_popis(),
+				valuations.get(1).getHo_popis());
 
 		transaction.commit();
 		session.close();

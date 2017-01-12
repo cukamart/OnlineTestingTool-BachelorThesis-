@@ -77,7 +77,7 @@ public class TestDaoTest {
 	 * predmet (5S003) a skontrolujem ci su 1. predmetu stale priradene iba 2 testy. Vytvorim dve otazky, do 1. testu vlozim obe otazky, do
 	 * 2. testu vlozim len prvu otazku a skontrolujem ci je to tam spravne vlozene (ManyToMany) potom vytiahnem znenie otazky z testu cislo
 	 * 2 a zistim ci sa znenie otazky zhoduje s tym co predpokladam ze tam bude...
-	 * 
+	 * Taktiez treba odtestovat ci dobre funguje dotazovanie vyber testu podla sk. roku
 	 */
 	@Test
 	public void testCreateandGetTests() {
@@ -115,7 +115,7 @@ public class TestDaoTest {
 				"Semafory", "127.16.08.111", "127.16.08.131", 45, 20, 20, "N", 20, "Y", "N", "Y", 1, 2015, teType);
 
 		sk.uniza.fri.cuka.data.entity.Test test3 = new sk.uniza.fri.cuka.data.entity.Test(now, now, now, now, "5S003",
-				"Extreme Programming", "127.16.08.111", "127.16.08.131", 45, 20, 20, "N", 20, "Y", "N", "Y", 1, 2015,
+				"Extreme Programming", "127.16.08.111", "127.16.08.131", 45, 20, 20, "N", 20, "Y", "N", "Y", 1, 2016,
 				teType2);
 		
 		System.out.println(test);
@@ -204,6 +204,13 @@ public class TestDaoTest {
 		assertEquals("Test 2 should contain question which ot_znenie = Co viete o monitore ? ", "Co viete o monitore ?",
 				questions.get(0).getOt_znenie());
 
+		//Vyber testu podla sk. roku
+		List<sk.uniza.fri.cuka.data.entity.Test> tests2015 = testDao.getAllCurrentYearTests(2015);
+		List<sk.uniza.fri.cuka.data.entity.Test> tests2016 = testDao.getAllCurrentYearTests(2016);
+		
+		assertEquals("There should be 3 tests for year 2015/2016", 3, tests2015.size());
+		assertEquals("There should be 0 tests for year 2016/2017", 0, tests2016.size());
+		
 		transaction.commit();
 		session.close();
 	}

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import sk.uniza.fri.cuka.data.entity.Status;
 
 @Repository("statusDao")
-public class StatusDao extends AbstractDao<Status, Long> {
+public class StatusDao extends AbstractDao<Status, Integer> {
 
 }

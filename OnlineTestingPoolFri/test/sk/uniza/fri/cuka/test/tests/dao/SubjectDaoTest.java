@@ -44,6 +44,10 @@ public class SubjectDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Entita predmet sa vytvara zriedka a aplikacia si vystaci so zakladnymi
+	 * CRUD operaciami
+	 */
 	@Test
 	public void testCreateandGetSubject() {
 		Session session = sessionFactory.openSession();
@@ -59,12 +63,18 @@ public class SubjectDaoTest {
 		subjects = subjectDao.findAll();
 		assertEquals("Number of subjects should be 1", 1, subjects.size());
 
-		// neporovnava ID a heslo (ID je automaticky generovane a heslo zasifrovane...)
+		// neporovnava ID a heslo (ID je automaticky generovane a heslo
+		// zasifrovane...)
 		assertEquals("Created subject should be identical to retrieved", subject, subjects.get(0));
-		
+
 		Subject mySubject = subjectDao.findById("5S003");
-		
+
 		assertEquals("Retrieved subject find by id should be indentical to created", subject, mySubject);
+		
+		subject.setPr_nazov("Zajisteni Kvality Software");
+		subjectDao.create(subject);
+		
+		assertEquals("Updated subject should be Zajisteni Kvality Software", subject.getPr_nazov(), subjectDao.findAll().get(0).getPr_nazov());
 
 		transaction.commit();
 		session.close();

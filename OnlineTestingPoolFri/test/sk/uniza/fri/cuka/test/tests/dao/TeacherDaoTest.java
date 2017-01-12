@@ -44,6 +44,10 @@ public class TeacherDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Vyskusame CRUD operacie na entitou ucitel.
+	 * Taktiez vyskusame funkcnost dotazu najst ucitela podla loginu.
+	 */
 	@Test
 	public void testCreateTeacher() {
 		Session session = sessionFactory.openSession();
@@ -71,6 +75,11 @@ public class TeacherDaoTest {
 		Teacher teacherByLogin = teacherDao.getTeacherByLogin("vagner2");
 		
 		assertEquals("Teacher retrieved by login should be \"Dusan Vagner\"", teacherByLogin, teacher);
+		
+		teacher2.setUc_meno("Martin");
+		teacherDao.create(teacher2);
+		
+		assertEquals("Updated name of teacher should be Martin", "Martin", teacherDao.getTeacherByLogin("osko1").getUc_meno());
 
 		transaction.commit();
 		session.close();

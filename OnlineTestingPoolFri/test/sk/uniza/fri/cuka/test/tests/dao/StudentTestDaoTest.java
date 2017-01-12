@@ -68,6 +68,10 @@ public class StudentTestDaoTest {
 		session.close();
 	}
 
+	/*
+	 * Odtestuje vytvaranie studentskych testov ako aj skontroluje ci uz je test
+	 * vypracovany a pripraveny na ohodnotenie alebo test este nieje vypracovany
+	 */
 	@Test
 	public void testCreateandGetStudentTest() {
 		Session session = sessionFactory.openSession();
@@ -106,7 +110,7 @@ public class StudentTestDaoTest {
 
 		studentDao.create(student);
 
-		// vytvorim Student Test
+		// vytvorim Student Test (nevyplneny)
 		StudentTest studentTest = new StudentTest(student.getSt_id(), test.getTe_id(), 2015, now, now, 0,
 				subjectTest.getMax(), "N", "N", false, now, now);
 
@@ -117,15 +121,43 @@ public class StudentTestDaoTest {
 
 		studentTestDao.create(studentTest);
 
+		// vytvorim Student Test (vyplneny)
+		StudentTest studentTest2 = new StudentTest(student.getSt_id(), test.getTe_id(), 2015, now, now, 0,
+				subjectTest.getMax(), "N", "N", true, now, now);
+
+		studentTest2.setTest(test);
+		studentTest2.setStudent(student);
+		test.getStudentTests().add(studentTest2);
+		student.getStudentTests().add(studentTest2);
+
+		studentTestDao.create(studentTest);
+		studentTestDao.create(studentTest2);
+
 		// testujem funkcnost DAO
 		List<StudentTest> studentTests;
 		studentTests = studentTestDao.findAll();
 
-		assertEquals("Number of StudentTests should be 1", 1, studentTests.size());
+		assertEquals("Number of StudentTests should be 2", 2, studentTests.size());
 
 		StudentTest myStudentTest = studentTestDao.findById(studentTests.get(0).getSte_id());
 
 		assertEquals("Retrieved studentTest find by id should be indentical to created", studentTest, myStudentTest);
+
+		studentTest.setSte_vysledok(5);
+		studentTestDao.create(studentTest);
+
+		StudentTest studTest = studentTestDao.findById(studentTest.getSte_id());
+
+		assertEquals("Updated studentTest should have 5 points as final score", studentTest.getSte_vysledok(),
+				studTest.getSte_vysledok());
+
+		// zkontroluje pocet neodovzdanych testov
+		assertEquals("There should be 1 active test", 1,
+				studentTestDao.getAllActiveStudentTestsByTestId(test.getTe_id()).size());
+		
+		// zkontroluje pocet odovzdanych testov
+				assertEquals("There should be 1 active test", 1,
+						studentTestDao.getArchiveStudentTestsByTestId(test.getTe_id()).size());
 
 		transaction.commit();
 		session.close();

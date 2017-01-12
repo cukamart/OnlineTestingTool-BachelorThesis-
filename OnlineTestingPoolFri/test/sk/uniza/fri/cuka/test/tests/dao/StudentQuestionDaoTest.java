@@ -82,9 +82,10 @@ public class StudentQuestionDaoTest {
 	}
 
 	/**
-	 * Vytvorime studenta, predmet, predmetu priradime test, vygenerujeme test pre studenta z nejakou otazkou
-	 * Skontrolujeme ci sa dobre vygenerovala otazka do testu
-	 * Skontrolujeme ktore otazky sa realne vygenerovali do testu (z 5 otazok sa 1 vyberie do testu)
+	 * Vytvorime studenta, predmet, predmetu priradime test, vygenerujeme test
+	 * pre studenta s nejakou otazkou Skontrolujeme ci sa dobre vygenerovala
+	 * otazka do testu Skontrolujeme ktore otazky sa realne vygenerovali do
+	 * testu (z 5 otazok sa 1 vyberie do testu)
 	 */
 	@Test
 	public void testCreateandGetStudentTest() {
@@ -124,16 +125,30 @@ public class StudentQuestionDaoTest {
 
 		studentDao.create(student);
 
+		Student student2 = new Student("latinak", "radovan", "rolanbar", "letmein", 1, 1, "druzby", "Zilina", "97404",
+				"cukamartin@gmail.com", "", "0904112355", "S", "5ZI031");
+
+		studentDao.create(student2);
+
 		// vytvorim Student Test
 		StudentTest studentTest = new StudentTest(student.getSt_id(), test.getTe_id(), 2015, now, now, 0,
+				subjectTest.getMax(), "N", "N", false, now, now);
+
+		StudentTest studentTest2 = new StudentTest(student2.getSt_id(), test.getTe_id(), 2015, now, now, 0,
 				subjectTest.getMax(), "N", "N", false, now, now);
 
 		studentTest.setTest(test);
 		studentTest.setStudent(student);
 		test.getStudentTests().add(studentTest);
 		student.getStudentTests().add(studentTest);
+		
+		studentTest2.setTest(test);
+		studentTest2.setStudent(student2);
+		test.getStudentTests().add(studentTest2);
+		student2.getStudentTests().add(studentTest2);
 
 		studentTestDao.create(studentTest);
+		studentTestDao.create(studentTest2);
 
 		// vytvorim Otazku
 		Question question = new Question("Co viete o monitore ?", subject.getPr_id(), "T", 1, "text", 13, null, "aaa",
@@ -142,6 +157,14 @@ public class StudentQuestionDaoTest {
 		question.setSubject(subject);
 		subject.getQuestions().add(question);
 		questionDaoImpl.create(question);
+
+		// vytvorim Otazku2
+		Question question2 = new Question("Ako predist uviaznutiu ?", subject.getPr_id(), "T", 1, "ABCD", 13, null,
+				"aaa", "aaa", 1L, "mojModel");
+
+		question2.setSubject(subject);
+		subject.getQuestions().add(question2);
+		questionDaoImpl.create(question2);
 
 		// vytvorim Stud_otazka
 		StudentQuestion studentQuestion = new StudentQuestion(studentTest.getSte_id(), question.getOt_id(), 0, 1, "ano",
@@ -154,21 +177,36 @@ public class StudentQuestionDaoTest {
 
 		studentQuestionDao.create(studentQuestion);
 
+		// vytvorim Stud_otazka
+		StudentQuestion studentQuestion2 = new StudentQuestion(studentTest2.getSte_id(), question2.getOt_id(), 0, 1,
+				"ano", 0, null, 0, 0);
+
+		studentQuestion2.setQuestion(question2);
+		studentQuestion2.setStudentTest(studentTest);
+		question.getStudentQuestions().add(studentQuestion2);
+		studentTest.getStudentQuestions().add(studentQuestion2);
+
+		studentQuestionDao.create(studentQuestion);
+
 		// testujem funkcnost DAO
 		List<StudentQuestion> studentQuestions;
 		studentQuestions = studentQuestionDao.findAll();
 
-		assertEquals("Number of StudentQuestions should be 1", 1, studentQuestions.size());
+		// 2 otazky
+		assertEquals("Number of StudentQuestions should be 2", 2, studentQuestions.size());
 
 		StudentQuestionId sqId = new StudentQuestionId(studentTest.getSte_id(), question.getOt_id());
 		StudentQuestion myStudentQuestion = studentQuestionDao.findById(sqId);
 
 		assertEquals("Retrieved studentQuestion find by id should be indentical to created", studentQuestion,
 				myStudentQuestion);
-		
-		// najdem ktore otazky studentovy vygenerovalo do testu
 
-		//TODO
+		// najdem ktore otazky studentovy vygenerovalo do testu
+		List<StudentQuestion> allStudentQuestionsByTestId = studentQuestionDao
+				.getAllStudentQuestionsByTestId(studentTest.getSte_id());
+		// len 1 z 2 otazok bola vygenerovana do testu
+		assertEquals("There should by 2 question in StudentTest 1", 1, allStudentQuestionsByTestId.size());
+
 		transaction.commit();
 		session.close();
 	}

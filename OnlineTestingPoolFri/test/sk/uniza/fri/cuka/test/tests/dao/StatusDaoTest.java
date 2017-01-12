@@ -65,12 +65,12 @@ public class StatusDaoTest {
 		statuses = statusDao.findAll();
 		assertEquals("Number of statuses should be 2", 2, statuses.size());
 
-		assertEquals("Created status should be identical to retrieved", status, statuses.get(0));
-		assertEquals("Created status should be identical to retrieved", status2, statuses.get(1));
+		assertEquals("Created status should be identical to retrieved", status, statusDao.findById(1));
+		assertEquals("Created status should be identical to retrieved", status2, statusDao.findById(2));
 		
 		status.setUr_nazov("suplujúci");
 		statusDao.create(status);
-		assertEquals("Updated status should be suplujúci", "suplujúci", statuses.get(0).getUr_nazov());
+		assertEquals("Updated status should be suplujúci", "suplujúci", statusDao.findById(status.getUr_id()).getUr_nazov());
 
 		transaction.commit();
 		session.close();
