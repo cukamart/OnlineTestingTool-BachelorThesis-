@@ -99,6 +99,13 @@ public class StudentAnswerDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Odtestuje vyplnenie otazky testu studentom.
+	 * Tato entita realne vyuziva len operacie Create a Read
+	 * - ked student odosle test na ohodnotenie zaznemanaju sa (vytvoria jeho odpovede)
+	 * - ked ucitel hodnoti test nacitaju sa odpovede studenta.
+	 * - delete a update je implementovany ale realne sa v aplikacii nevyuziva
+	 */
 	@Test
 	public void testCreateandGetStudentAnswer() {
 		Session session = sessionFactory.openSession();

@@ -81,6 +81,11 @@ public class StudentQuestionDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Vytvorime studenta, predmet, predmetu priradime test, vygenerujeme test pre studenta z nejakou otazkou
+	 * Skontrolujeme ci sa dobre vygenerovala otazka do testu
+	 * Skontrolujeme ktore otazky sa realne vygenerovali do testu (z 5 otazok sa 1 vyberie do testu)
+	 */
 	@Test
 	public void testCreateandGetStudentTest() {
 		Session session = sessionFactory.openSession();
@@ -160,7 +165,10 @@ public class StudentQuestionDaoTest {
 
 		assertEquals("Retrieved studentQuestion find by id should be indentical to created", studentQuestion,
 				myStudentQuestion);
+		
+		// najdem ktore otazky studentovy vygenerovalo do testu
 
+		//TODO
 		transaction.commit();
 		session.close();
 	}

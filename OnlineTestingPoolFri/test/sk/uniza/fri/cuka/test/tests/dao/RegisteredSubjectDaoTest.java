@@ -81,13 +81,18 @@ public class RegisteredSubjectDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Vytvorim 2 predmety, ucitelov ktory ich vyucuju Vytvorim 2 studentov
+	 * zapisem im predmety a skontrolujem ci maju spravne zapisane predmety
+	 * Taktiez skontrolujem ktore predmety maju na aky sk. rok zapisane
+	 */
 	@Test
 	public void testRegisteredSubjectDao() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		Status status = new Status(1, "VIP");
+		Status status = new Status(1, "prednasajuci");
 
 		Subject subject = new Subject("5S003", "Softvérové inžinierstvo", "SI", "Software Engineering", "A");
 		Subject subject2 = new Subject("5S001", "Operačné systémy", "OS", "Operating Systems", "A");
@@ -127,7 +132,7 @@ public class RegisteredSubjectDaoTest {
 		manage2.setStatus(status);
 		manage2.setSp_uc_id(teacherDao.findAll().get(0).getUc_id());
 		manage2.setSp_pr_id(subjectDao.findAll().get(1).getPr_id());
-		manage2.setSp_skrok(2016);
+		manage2.setSp_skrok(2015);
 		manage2.setSp_uc_boss(123);
 		manage2.setSp_ur_id(statusDao.findAll().get(0).getUr_id());
 
@@ -161,7 +166,15 @@ public class RegisteredSubjectDaoTest {
 				"cukamartin@gmail.com", "", "0904112355", "S", "5ZI031");
 		studentDao.create(student);
 
+		Student student2 = new Student("cuka", "martin", "cuka666", "letmein", 1, 1, "druzby", "Zilina", "97404",
+				"cukamartin@gmail.com", "", "0904112355", "S", "5ZI031");
+		studentDao.create(student2);
+
 		RegisteredSubject registeredSubject = new RegisteredSubject(student.getSt_id(), manage.getSp_pr_id(),
+				manage.getSp_skrok(), new Date(), new Date(), new Date(), new Date(), manage.getSp_uc_id(),
+				valuation.getHo_id(), null, null, null, null);
+
+		RegisteredSubject registeredSubject2 = new RegisteredSubject(student2.getSt_id(), manage.getSp_pr_id(),
 				manage.getSp_skrok(), new Date(), new Date(), new Date(), new Date(), manage.getSp_uc_id(),
 				valuation.getHo_id(), null, null, null, null);
 
@@ -172,12 +185,31 @@ public class RegisteredSubjectDaoTest {
 
 		registeredSubjectDao.create(registeredSubject);
 
+		registeredSubject2.setValuation(valuation);
+		valuation.getRegisteredSubjects().add(registeredSubject2);
+		registeredSubject2.setManage(manage2);
+		manage2.getRegisteredSubjects().add(registeredSubject2);
+
+		registeredSubjectDao.create(registeredSubject2);
+
 		List<RegisteredSubject> registeredSubjects = registeredSubjectDao.findAll();
 
-		assertEquals("Number of statuses should be 1", 1, registeredSubjects.size());
+		assertEquals("Number of registered subjects should be 2", 2, registeredSubjects.size());
 
 		assertEquals("Created RegisteredSubject should be identical to retrieved", registeredSubject,
 				registeredSubjects.get(0));
+
+		List<RegisteredSubject> studentsRegisteredSubjectsCurrentSchoolYear = registeredSubjectDao
+				.getStudentsRegisteredSubjectsCurrentSchoolYear(studentDao.findAll().get(0).getSt_id(), 2016);
+
+		assertEquals("Student 1 should have 1 subject for year 2016/2017", 1,
+				studentsRegisteredSubjectsCurrentSchoolYear.size());
+
+		studentsRegisteredSubjectsCurrentSchoolYear = registeredSubjectDao
+				.getStudentsRegisteredSubjectsCurrentSchoolYear(studentDao.findAll().get(1).getSt_id(), 2015);
+
+		assertEquals("Student 2 should have 0 subject for year 2015/2016", 0,
+				studentsRegisteredSubjectsCurrentSchoolYear.size());
 
 		transaction.commit();
 		session.close();

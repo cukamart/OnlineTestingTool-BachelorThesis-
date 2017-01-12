@@ -44,6 +44,10 @@ public class StudentDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Zkontroluje konzistenciu dat nad entitou student.
+	 * Aplikacia v sucasnom stave si vystaci len zo zakladnymi crud operaciami, ktore odtestujeme
+	 */
 	@Test
 	public void testCreateandGetStudent() {
 		Session session = sessionFactory.openSession();
@@ -66,8 +70,13 @@ public class StudentDaoTest {
 		students = studentDao.findAll();
 		assertEquals("Number of students should be 2", 2, students.size());
 
-		// neporovnava ID a heslo (ID je automaticky generovane a heslo zasifrovane...)
 		assertEquals("Created student should be identical to retrieved", student, students.get(0));
+		
+		student.setSt_ulica("mladeznicka");
+		studentDao.create(student);
+		
+		Student updatedStudent = studentDao.findById(student.getSt_id());
+		assertEquals("Updated student should live on mladeznicka street", "mladeznicka", updatedStudent.getSt_ulica());
 
 		transaction.commit();
 		session.close();

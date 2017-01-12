@@ -44,21 +44,33 @@ public class StatusDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Status je jednoducha entita ktora cleni ucitelov na prednasajucich / cviciacich ...
+	 * V sucasnosti si aplikacia vystaci iba z CRUD operaciami preto odtestujem konzistenciu dat zatial len 
+	 * nad jednoduchymi crud operaciami.
+	 */
 	@Test
 	public void testCreateandGetStatus() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		Status status = new Status(1, "VIP");
+		Status status = new Status(1, "prednášajúci");
+		Status status2 = new Status(2, "cvičiaci");
 
 		List<Status> statuses;
 
 		statusDao.create(status);
+		statusDao.create(status2);
 		statuses = statusDao.findAll();
-		assertEquals("Number of statuses should be 1", 1, statuses.size());
+		assertEquals("Number of statuses should be 2", 2, statuses.size());
 
-		assertEquals("Created subject should be identical to retrieved", status, statuses.get(0));
+		assertEquals("Created status should be identical to retrieved", status, statuses.get(0));
+		assertEquals("Created status should be identical to retrieved", status2, statuses.get(1));
+		
+		status.setUr_nazov("suplujúci");
+		statusDao.create(status);
+		assertEquals("Updated status should be suplujúci", "suplujúci", statuses.get(0).getUr_nazov());
 
 		transaction.commit();
 		session.close();
