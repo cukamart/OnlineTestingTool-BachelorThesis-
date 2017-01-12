@@ -25,6 +25,7 @@ public class SchoolYearTest {
 		this.expectedYear = expectedYear;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Parameters
 	public static Collection<Object[]> data() {
 		Date date = new Date();
@@ -41,7 +42,6 @@ public class SchoolYearTest {
 	}
 
 	// na základe dátumu vráti šk. rok (medzná podmienka august/september) 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void schoolYearTest() {
 		SchoolYear schoolYear = new SchoolYear();

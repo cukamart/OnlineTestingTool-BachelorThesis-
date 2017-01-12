@@ -58,6 +58,11 @@ public class QuestionDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Vytvorim 2 predmety
+	 * Vytvorim Skupinu otazok do nej priradim 2 konkretne otazky k 1. predmetu.
+	 * Odtestujem ci spravne najde ktore otazky patria ku ktoremu predmetu
+	 */
 	@Test
 	public void testCreateandGetQuestions() {
 		Session session = sessionFactory.openSession();
@@ -68,9 +73,11 @@ public class QuestionDaoTest {
 				123, "Popis co vies o monitore", 13, "Y");
 
 		Subject subject = new Subject("5S001", "Operačné systémy", "OS", "Operating Systems", "A");
+		Subject subject2 = new Subject("ZKS01", "Zajisteni Kvality Software", "ZKS", "Testing", "A");
 
 		questionCategoryDao.create(questionCategory);
 		subjectDao.create(subject);
+		subjectDao.create(subject2);
 
 		List<QuestionCategory> questionCategories = questionCategoryDao.findAll();
 
@@ -96,6 +103,12 @@ public class QuestionDaoTest {
 
 		questions = questionDao.findAll();
 		assertEquals("Number of Questions should be 2", 2, questions.size());
+		
+		List<Question> findBySubject = questionDao.findBySubject("5S001");
+		assertEquals("There should be 2 questions for subject 5S001", 2, findBySubject.size());
+		
+		findBySubject = questionDao.findBySubject("5S002");
+		assertEquals("There should be 0 questions for subject 5S002", 0, findBySubject.size());
 
 		transaction.commit();
 		session.close();

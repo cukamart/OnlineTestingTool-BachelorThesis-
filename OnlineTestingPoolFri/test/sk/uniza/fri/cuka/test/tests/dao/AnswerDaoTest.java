@@ -70,14 +70,23 @@ public class AnswerDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Vytvorim Skupinovu odpoved (spravna / nespravna)
+	 * Vytvorim predmet, predmetu priradim otazku, otazke priradim odpoved
+	 * Odpovedi priradim ci je spravna / nespravna
+	 * Skontrolujem CRUD operacie nad entitou odpoved
+	 * Skontrolujem ci spravne vyrata kolko je spravnych odpovedi k danej otazke
+	 */
 	@Test
 	public void testCreateAndGetAnswers() {
 		Session session = sessionFactory.openSession();
 		shareSession(session);
 		Transaction transaction = session.beginTransaction();
 
-		AnswerCategory answerCategory = new AnswerCategory("skupinova odpoved");
+		AnswerCategory answerCategory = new AnswerCategory("správna");
+		AnswerCategory answerCategory2 = new AnswerCategory("nesprávna");
 		answerCategoryDao.create(answerCategory);
+		answerCategoryDao.create(answerCategory2);
 
 		List<AnswerCategory> answerCategories = answerCategoryDao.findAll();
 
@@ -103,21 +112,41 @@ public class AnswerDaoTest {
 
 		List<Question> questions = questionDao.findAll();
 
+		// spravna odpoved
 		Answer answer = new Answer("A", questions.get(0).getOt_id(), "T", 1, answerCategories.get(0).getSko_id(),
 				"Monitor", ".jpg");
 
 		answer.setAnswerCategory(answerCategory);
 		answerCategory.getAnswers().add(answer);
+		
+		// spravna odpoved
+		Answer answer2 = new Answer("B", questions.get(0).getOt_id(), "T", 1, answerCategories.get(0).getSko_id(),
+				"LCD", ".jpg");
+
+		answer2.setAnswerCategory(answerCategory);
+		answerCategory.getAnswers().add(answer2);
+		
+		// nespravna odpoved
+		Answer answer3 = new Answer("C", questions.get(0).getOt_id(), "T", 1, answerCategories.get(1).getSko_id(),
+				"CRT", ".jpg");
+
+		answer3.setAnswerCategory(answerCategory2);
+		answerCategory2.getAnswers().add(answer2);
 
 		answer.setQuestion(question);
 		question.getAnswers().add(answer);
 
-		answerDao.create(answer);
+		answerDao.create(answer3);
 
 		List<Answer> answers = answerDao.findAll();
 
-		assertEquals("There should be 1 Answer", 1, answers.size());
+		assertEquals("There should be 3 Answers", 3, answers.size());
 		assertEquals("There should be 1 Question", 1, questions.size());
+		
+		// padne pretoze je zle napisane HQL prikaz - BUG...
+		int numberOfCorrectAnswersToQuestion = answerDao.getNumberOfCorrectAnswersToQuestion(0);
+		
+		assertEquals("There should be 2 correct Answers to Question", 2, numberOfCorrectAnswersToQuestion);
 
 		transaction.commit();
 		session.close();

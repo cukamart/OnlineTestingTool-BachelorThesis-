@@ -44,6 +44,10 @@ public class QuestionCategoryDaoTest {
 		session.close();
 	}
 
+	/**
+	 * Jednoducha entita QuestionCategory.
+	 * Skontrolujeme konzistenciu dat nad CRUD operaciami nakolko tato entita zlozitejsie dotazy zatial nevyuziva
+	 */
 	@Test
 	public void testCreateandGetQuestionCategory() {
 		Session session = sessionFactory.openSession();
@@ -67,9 +71,15 @@ public class QuestionCategoryDaoTest {
 		questionCategories = questionCategoryDao.findAll();
 		assertEquals("Number of Question Categories should be 2", 2, questionCategories.size());
 
-		// neporovnava ID (ID je automaticky generovane)
 		assertEquals("Created QuestionCategory should be identical to retrieved", questionCategory,
 				questionCategories.get(0));
+		
+		questionCategory.setSo_nazov("updated");
+		questionCategoryDao.create(questionCategory);
+		
+		questionCategories = questionCategoryDao.findAll();
+		assertEquals("Number of Question Categories should be 2", 2, questionCategories.size());
+		assertEquals("Updated question category name should be updated",  "updated", questionCategories.get(1).getSo_nazov());
 
 		transaction.commit();
 		session.close();
